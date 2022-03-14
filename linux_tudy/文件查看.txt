@@ -1,0 +1,24 @@
+cat 行正序查看
+tac 行倒序查看
+more 屏查看 
+	enter 向下 b向上
+	space 整屏向下
+	H查看相关操作
+less 基本等同more 
+	更多参数
+	
+
+head -[10] [file]	显示file前10行
+tail -[10] [file]	显示file前10行
+
+head -[10] [file] | tail -[10] [file] 现实file[10,10]行
+	| 该符号将前表达式查询结果传递给后续操作
+
+	tail -f（-F） file 动态监控文件尾部生成行
+
+-f 监控Inode	touch重新生成同名文件可能Inode发生变化，导致监控丢失
+-F 监控file文件名
+
+快速定位文件
+find [路径] -name(-inum) [相关参数]
+	按名(inode)查找
