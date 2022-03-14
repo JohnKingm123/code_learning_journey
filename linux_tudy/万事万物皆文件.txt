@@ -1,0 +1,61 @@
+win文件系统  
+分盘符（森林结构）适合个人用户
+
+
+
+linux文件系统
+不分盘符（树结构）适合联机用户
+/为根目录 不存在分区，有且仅有一棵树
+权限一般限制用户向底层访问，一般访问子树
+root用户拥有根访问权限
+/boot 启动引导区域仅使用预分配的大小
+
+挂载
+用户有扩展需求的时候，新增硬盘“挂载”在（/->/xxx->/[用户定义目录]）一般建立在三级目录以下，理论可挂载65536块硬盘
+优势1
+默认的根节点和二级目录统一，程序移植简单（windows系统上程序默认安装路径一般在C盘的原因，C盘路径相对固定，防止路径出错）
+挂载永远只会挂载在次级目录下，正常访问过程方向统一不会出错
+
+mount /dev/disk1 /usr/download
+disk1 1T
+
+冷知识
+\用在windows文件系统路径
+/用在linux文件系统路径
+
+相对位置
+以“我”为基准点的路径（动态）快
+绝对位置
+整棵树当中的路径（静态）一定是对的
+
+linux就连进程也是文件（windows在内存）
+
+ps -ef 		//查看进程
+
+cd /proc/		//进入进程文件夹
+
+echo $$		//查看当前进程编号
+
+cd [进程编号]	//进入当前进程文件
+ll		//当前echo $$所使用的运行变量 内容 资源
+//////////////
+/目录下
+lrwxrwxrwx.   1 root root    7 Jan 28 10:58 bin -> usr/bin		、、可执行程序
+dr-xr-xr-x.   5 root root 4096 Jan 28 11:01 boot			、、启动引导
+drwxr-xr-x   20 root root 3200 Feb 17 11:37 dev			、、设备信息（设备管理）
+drwxr-xr-x.  74 root root 8192 Feb 17 11:37 etc			、、系统配置文件（system32）
+drwxr-xr-x.   3 root root   22 Feb  6 16:18 home			、、普通用户初始位置，主页
+lrwxrwxrwx.   1 root root    7 Jan 28 10:58 lib -> usr/lib		、、类 库
+lrwxrwxrwx.   1 root root    9 Jan 28 10:58 lib64 -> usr/lib64
+drwxr-xr-x.   2 root root    6 Apr 11  2018 media			、、媒体
+drwxr-xr-x.   2 root root    6 Apr 11  2018 mnt			、、磁盘挂载区
+drwxr-xr-x.   2 root root    6 Apr 11  2018 opt			、、软件安装目录（默认）
+dr-xr-xr-x  108 root root    0 Feb 17 11:37 proc			、、进程
+dr-xr-x---.   2 root root  135 Feb  6 16:01 root			、、root用户初始位置，主页
+drwxr-xr-x   22 root root  620 Feb 17 11:37 run			、、运行时的环境变量
+lrwxrwxrwx.   1 root root    8 Jan 28 10:58 sbin -> usr/sbin		、、超级用户使用可执行程序
+drwxr-xr-x.   2 root root    6 Apr 11  2018 srv			、、系统临时调用的变量
+dr-xr-xr-x   13 root root    0 Feb 17 13:39 sys			、、系统内核信息
+drwxrwxrwt.   7 root root   93 Feb 17 12:31 tmp			、、临时变量存放点，断电清空
+drwxr-xr-x.  13 root root  155 Jan 28 10:58 usr			、、所有用户区域
+drwxr-xr-x.  19 root root  267 Jan 28 11:02 var			、、日志，	变量存放点，不自动清空
