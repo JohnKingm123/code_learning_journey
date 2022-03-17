@@ -33,7 +33,7 @@ return 0;
 
 int main ()
 {
-char e[4]={'A','B','C','D'};
-P(e,0,3);
+char e[6]={'j','i','n','m','i','n'};
+P(e,0,5);
 return 0;
 }

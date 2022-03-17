@@ -11,7 +11,6 @@ inline void disp(Type lt[]) {
  printf("===============>%s\n\n",lt); 
 } 
 template<class Type> 
-
 void perm(Type list[], int k,int m) { 
  printf("=================================\n"); 
  if(k==m) { 
@@ -25,11 +24,10 @@ void perm(Type list[], int k,int m) {
  swap(list[k],list[i],list,k,i,'-'); 
  } 
  } 
-}
- 
+} 
 int main(int argc, char* argv[]) { 
- char ll[] = "abc"; 
- perm(ll,0,2); 
+ char ll[] = "jinm"; 
+ perm(ll,0,3); 
  system("pause"); 
  return 0; 
 } 
