@@ -1,0 +1,51 @@
+yum install net-tools
+ifconfig
+
+netstat 	-anp	//正在监听
+	-r	//核心路由表
+
+ping [ip_address]
+//地址主机是否能通
+
+
+yum install telnet
+telnet [ip_address] [port] //(0,65535)
+//可以查看具体端口通信状态
+
+curl -X GET [ip_address]  //获取主机的首页面
+
+
+////////////////////////////////防火墙配置
+systemctl status firewalld.service//查看防火墙状态
+
+systemctl stop firewalld.service//临时停用防火墙
+
+systemctl disable firewalld.service//禁用防火墙
+
+
+firewall-cmd --state//查看防火墙状态
+
+firewall-cmd --reload//重新载入防火墙配置
+
+firewall-cmd --get-zones//列出支持的zone（区域）
+
+firewall-cmd --get-services//列出支持的服务，在列表中服务是方形的
+
+firewall-cmd --query-service ftp//查看是否支持ftp服务
+
+firewall-cmd --add-service=ftp//临时开放ftp服务
+
+firewall-cmd --add-service=ftp --permanent//永久开放ftp服务
+
+firewall-cmd --remove-service=ftp --permanent//永久移除ftp服务支持
+
+firewall-cmd --add-port=80/tcp --permanent//永久添加80端口
+
+///////////////////////////////////////端口操作
+firewall-amd --zone=public --add-port=80/tcp --permanent	//添加
+
+firewal-cmd --reload	//配置信息重载
+
+firewall-cmd --zone=public --query-port=80/tcp	//查看
+
+firewall-cmd --zone=public --remove-port=80/tcp --permanent	//删除

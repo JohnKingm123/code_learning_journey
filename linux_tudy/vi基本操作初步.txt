@@ -1,0 +1,47 @@
+基本vi [file]
+vi +8 [file]	//打开并光标定位至第八行
+vi + [file]	//打开并光标定位至末行
+vi +[/bala]	 [file] 	//打开并搜索bala
+	n //下一搜索结果
+
+三大模式
+输入模式<=>编辑模式<=>末行（命令行）模式
+           esc-i                : -esc
+
+输入模式 	i光标当前位置插入
+	a当前光标位置自动后移一位
+	I行首插入
+	A行尾部追加
+	o下一行另起一行
+	O上一行另起一行
+
+	ctrl r  (retro)撤销上一步
+
+编辑模式
+	[number] gg 行跳转，过大至末行
+	[number] dd 删除行
+		d [h j k l (↑ ↓ ← →)] 删除（上一行，下一行，左字符，右字符）
+		[number] d w删除当前光标后的单词	
+	u 操作回滚
+	. 操作前滚
+
+	w定位下一个单词首字母前一个位置
+	
+	[number] x 剪切number个字符
+	[number] yy 复制 number行
+	[number]	yw 复制 number个单词
+	[number]p 粘贴number次
+	
+	^行首
+	$行尾
+	ZZ保存并退出
+	ctrl s冻结当前屏幕
+	ctrl q解冻当前屏幕
+	[number] r + [insert] 替换number个字符
+
+命令行模式:
+	/[abcd] 查找abcd
+	s/[abcd]/[1234]/  1234替换此行掉第一个abcd 
+	s/[abcd]/[1234]/g 1234替换掉此行全部abcd
+	g/[abcd]//[1234]/g 1234替换掉全局abcd
+ 

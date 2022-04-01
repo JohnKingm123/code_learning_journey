@@ -1,0 +1,41 @@
+先讲一个误操作
+文件未正常退出的时候会生成一个.*****.swp文件，标识文件正被后台挂载，删除即可解决(万事万物皆文件)
+文件传输
+win-linux
+ftp协议
+专用原件xftp等
+
+
+l rzsz
+rz上传
+win->linux
+
+sz下载
+linux->win
+
+外部shell用插件窗口使用
+
+
+linux-linux
+基于ssh协议下scp命令
+scp [] local_file remote_username@remote_ip:route
+-r	//用于拷贝文件夹子
+
+文件资源占用查看
+df -h	//查看分区信息，系统资源使用率		-h单纯显示单位的转化
+du -h [route]	//查看文件占用储存容量，
+	--max-depth=1 //最大迭代深度（显示路径后几层目录）
+
+文件压缩
+tar -zc(压缩)f(文件) [TargetFile](**********.tar.gc) [SourceFile]
+//压缩
+tar -zx(解压)f(文件) [SourceFile](**********.tar.gc) -C [route]   -C代表指定解压位置
+//解压
+
+也可以安装zip和unzip
+yum install zip unzip -y
+
+
+zip -r [tomcat.zip] [apache-tomcat-7.0.61]
+//zip
+unzip [tomacat.zip]
