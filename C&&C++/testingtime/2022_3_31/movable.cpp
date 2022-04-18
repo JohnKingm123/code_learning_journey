@@ -80,14 +80,36 @@ int MemoizedMatrixChain(int n,int **m,int **s,int *p) {
  return LookupChain(1,n,m,s,p); 
 } 
 //--------------------------------------------------------------------------- 
-//构造最优解
-void Traceback(int i,int j,int **s) { 
- if(i==j) return; 
- Traceback(i,s[i][j],s); 
- Traceback(s[i][j]+1,j,s); 
- printf("Multiply A %d,%d ",i,s[i][j]); 
- printf("and A %d,%d\n",(s[i][j]+1),j); 
-} 
+//构造最优解(加括号)
+    void Traceback(int i,int j,int **s) {
+    if(i==j)
+    return;//变成单矩阵形式，不操作直接返回
+
+    if(i==s[i][j]&&(s[i][j]+1)==j) {//恰好s在i后和j前截断，而且当前矩阵连乘长度2(最小)；打印，打印，返回
+        printf("(");
+        printf("%d%d",i,j);
+        printf(")");
+    
+    }
+    else    if(i==s[i][j]&&(s[i][j]+1)!=j){//恰好s在i后截断，但是长度大于2；打印，当前截断点后移，直到长度为2
+            printf("(");
+            printf("%d",i);
+            Traceback(s[i][j]+1,j,s);
+            printf(")");
+        
+            }
+            else    if(i!=s[i][j]&&(s[i][j]+1)==j){//恰好在j前截断，但是长度大于2；当前截断点前移，直到长度为2，然后打印
+                    printf("(");
+                    Traceback(i,s[i][j],s);
+                    printf("%d",j);      
+                    printf(")");
+                    }
+                    else {//在i后之后和j前之前截断；先从当前阶段点前移，找直到长度为2，再从当前截断点往后移，直到长度为2
+                    Traceback(i,s[i][j],s);
+                    Traceback(s[i][j]+1,j,s);
+                    }   
+
+}
 //--------------------------------------------------------------------------- 
 //动态规划法
 //--------------------------------------------------------------------------- 
@@ -97,6 +119,7 @@ void dyProg(int *p,int n,int **m,int **s) {
  printf("\n"); 
  disp2Darray(s,n+1); 
  Traceback(1,n,s); 
+ putchar('\n');
 } 
 //--------------------------------------------------------------------------- 
 //直接递归
@@ -116,16 +139,16 @@ void memMat(int n,int **m,int **s,int *p) {
 //--------------------------------------------------------------------------- 
 int main(int argc, char* argv[]) 
 { 
- int p[] = {30,35,15,5,10,20,25}; 
+ int p[] = {10,20,15,25,5}; 
  int n = sizeof(p)/sizeof(int)-1; 
  int **m = creta2Darray<int>(n+1); 
  int **s = creta2Darray<int>(n+1); 
  //动态规划法
  dyProg(p,n,m,s); 
  //直接递归
- recMat(p,n,m,s); 
+ //recMat(p,n,m,s); 
  //备忘录方法
- memMat(n,m,s,p); 
+ //memMat(n,m,s,p); 
  system("pause"); 
  return 0; 
 } 

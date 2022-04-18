@@ -1,0 +1,20 @@
+还是基于ssh协议
+服务器间免密钥操作
+1生成公钥私钥
+2发送公钥至另一主机   /root/.ssh/authorized_keys
+完毕
+
+生成密钥
+ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+生成一对公钥（.pub）私钥
+
+发送公钥
+ssh-copy-id -i ~/.ssh/id_rsa.pub root@192.168.188.101
+
+
+免yes操作
+
+ vi /etc/ssh/ssh_config
+末行添加
+StrictHostsKeyChecking no
+UserKnownHostsFile /dev/null

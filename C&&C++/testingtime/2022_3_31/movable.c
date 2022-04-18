@@ -122,9 +122,9 @@ int main(int argc, char* argv[])
  //动态规划法
  dyProg(p,n,m,s); 
  //直接递归
- recMat(p,n,m,s); 
+ //recMat(p,n,m,s); 
  //备忘录方法
- memMat(n,m,s,p);  
+ //memMat(n,m,s,p);  
  system("pause"); 
  return 0; 
 } 
