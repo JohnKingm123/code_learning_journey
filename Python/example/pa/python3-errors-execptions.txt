@@ -1,0 +1,307 @@
+Python3 错误和异常 - Python3教学
+入门教学 -- 学的不仅是技术，更是梦想！
+首页
+HTML
+CSS
+JavaScript
+jQuery
+Python3
+Python2
+Java
+C
+C++
+Go
+SQL
+首页
+HTML
+Search
+Python3教学
+Python3 教程 Python3 简介 Python3 环境搭建 Python3 基础语法 Python3 基本资料型别 Python3 直译器 Python3 注释 Python3 运算子 Python3 数字(Number) Python3 字串 Python3 列表 Python3 元组 Python3 字典 Python3 集合 Python3 程式设计第一步 Python3 条件控制 Python3 循环语句 Python3 迭代器与生成器 Python3 函式 Python3 资料结构 Python3 模组 Python3 输入和输出 Python3 File 方法 Python3 OS 档案/目录方法 Python3 错误和异常 Python3 面向物件 Python3 名称空间和作用域 Python3 标准库概览 Python3 例项 Python3 正则表示式 Python3 CGI程式设计 Python MySQL – mysql-connector 驱动 Python3 MySQL 数据库连线 – PyMySQL 驱动 Python3 网络程式设计 Python3 SMTP传送邮件 Python3 多执行绪 Python3 XML 解析 Python3 JSON 资料解析 Python3 日期和时间 Python3 内建函式 Python MongoDB Python urllib Python uWSGI 安装配置
+ads
+HTML 基础
+Python3 错误和异常
+Python3 错误和异常
+作为 Python 初学者，在刚学习 Python 程式设计时，经常会看到一些报错资讯，在前面我们没有提及，这章节我们会专门介绍。
+Python 有两种错误很容易辨认：语法错误和异常。
+Python assert（断言）用于判断一个表示式，在表示式条件为 false 的时候触发异常。
+语法错误
+Python 的语法错误或者称之为解析错，是初学者经常碰到的，如下例项
+>>> while True print('Hello world')
+File "<stdin>", line 1, in ?
+while True print('Hello world')
+^
+SyntaxError: invalid syntax
+
+这个例子中，函式 print() 被检查到有错误，是它前面缺少了一个冒号 : 。
+语法分析器指出了出错的一行，并且在最先找到的错误的位置标记了一个小小的箭头。
+异常
+即便 Python 程式的语法是正确的，在执行它的时候，也有可能发生错误。执行期检测到的错误被称为异常。
+大多数的异常都不会被程式处理，都以错误资讯的形式展现在这里:
+例项
+>>> 10 * (1/0)             # 0 不能作为除数，触发异常
+Traceback (most recent call last):
+File "<stdin>", line 1, in ?
+ZeroDivisionError: division by zero
+>>> 4 + spam*3             # spam 未定义，触发异常
+Traceback (most recent call last):
+File "<stdin>", line 1, in ?
+NameError: name 'spam' is not defined
+>>> '2' + 2               # int 不能与 str 相加，触发异常
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+TypeError: can only concatenate str (not "int") to str
+
+异常以不同的型别出现，这些型别都作为资讯的一部分打印出来: 例子中的型别有 ZeroDivisionError，NameError 和 TypeError。
+错误资讯的前面部分显示了异常发生的上下文，并以呼叫栈的形式显示具体资讯。
+异常处理
+try/except
+异常捕捉可以使用 try/except 语句。
+以下例子中，让使用者输入一个合法的整数，但是允许使用者中断这个程式（使用 Control-C 或者操作系统提供的方法）。使用者中断的资讯会引发一个 KeyboardInterrupt 异常。
+while True:
+try:
+x = int(input("请输入一个数字: "))
+break
+except ValueError:
+print("您输入的不是数字，请再次尝试输入！")
+
+try 语句按照如下方式工作；
+首先，执行 try 子句（在关键字 try 和关键字 except 之间的语句）。
+如果没有异常发生，忽略 except 子句，try 子句执行后结束。
+如果在执行 try 子句的过程中发生了异常，那么 try 子句余下的部分将被忽略。如果异常的型别和 except 之后的名称相符，那么对应的 except 子句将被执行。
+如果一个异常没有与任何的 except 匹配，那么这个异常将会传递给上层的 try 中。
+一个 try 语句可能包含多个except子句，分别来处理不同的特定的异常。最多只有一个分支会被执行。
+处理程式将只针对对应的 try 子句中的异常进行处理，而不是其他的 try 的处理程式中的异常。
+一个except子句可以同时处理多个异常，这些异常将被放在一个括号里成为一个元组，例如:
+except (RuntimeError, TypeError, NameError):
+pass
+
+最后一个except子句可以忽略异常的名称，它将被当作万用字元使用。你可以使用这种方法打印一个错误资讯，然后再次把异常丢掷。
+import sys
+
+try:
+f = open('myfile.txt')
+s = f.readline()
+i = int(s.strip())
+except OSError as err:
+print("OS error: {0}".format(err))
+except ValueError:
+print("Could not convert data to an integer.")
+except:
+print("Unexpected error:", sys.exc_info()[0])
+raise
+
+try/except...else
+try/except 语句还有一个可选的 else 子句，如果使用这个子句，那么必须放在所有的 except 子句之后。
+else 子句将在 try 子句没有发生任何异常的时候执行。
+以下例项在 try 语句中判断档案是否可以开启，如果开启档案时正常的没有发生异常则执行 else 部分的语句，读取档案内容：
+for arg in sys.argv[1:]:
+try:
+f = open(arg, 'r')
+except IOError:
+print('cannot open', arg)
+else:
+print(arg, 'has', len(f.readlines()), 'lines')
+f.close()
+
+使用 else 子句比把所有的语句都放在 try 子句里面要好，这样可以避免一些意想不到，而 except 又无法捕获的异常。
+异常处理并不仅仅处理那些直接发生在 try 子句中的异常，而且还能处理子句中呼叫的函式（甚至间接呼叫的函式）里丢掷的异常。例如:
+>>> def this_fails():
+x = 1/0
+
+>>> try:
+this_fails()
+except ZeroDivisionError as err:
+print('Handling run-time error:', err)
+
+Handling run-time error: int division or modulo by zero
+
+try-finally 语句
+try-finally 语句无论是否发生异常都将执行最后的程式码。
+以下例项中 finally 语句无论异常是否发生都会执行：
+例项
+try:
+itread01()
+except AssertionError as error:
+print(error)
+else:
+try:
+with open('file.log') as file:
+read_data = file.read()
+except FileNotFoundError as fnf_error:
+print(fnf_error)
+finally:
+print('这句话，无论异常是否发生都会执行。')
+
+丢掷异常
+Python 使用 raise 语句丢掷一个指定的异常。
+raise语法格式如下：
+raise [Exception [, args [, traceback]]]
+以下例项如果 x 大于 5 就触发异常:
+x = 10
+if x > 5:
+raise Exception('x 不能大于 5。x 的值为: {}'.format(x))
+
+执行以上程式码会触发异常：
+Traceback (most recent call last): File "test.py", line 3, in <module> raise Exception('x 不能大于 5。x 的值为: {}'.format(x)) Exception: x 不能大于 5。x 的值为: 10
+raise 唯一的一个引数指定了要被丢掷的异常。它必须是一个异常的例项或者是异常的类（也就是 Exception 的子类）。
+如果你只想知道这是否丢掷了一个异常，并不想去处理它，那么一个简单的 raise 语句就可以再次把它丢掷。
+>>> try:
+raise NameError('HiThere')
+except NameError:
+print('An exception flew by!')
+raise
+
+An exception flew by!
+Traceback (most recent call last):
+File "<stdin>", line 2, in ?
+NameError: HiThere
+
+使用者自定义异常
+你可以通过建立一个新的异常类来拥有自己的异常。异常类继承自 Exception 类，可以直接继承，或者间接继承，例如:
+>>> class MyError(Exception):
+def __init__(self, value):
+self.value = value
+def __str__(self):
+return repr(self.value)
+
+>>> try:
+raise MyError(2*2)
+except MyError as e:
+print('My exception occurred, value:', e.value)
+
+My exception occurred, value: 4
+>>> raise MyError('oops!')
+Traceback (most recent call last):
+File "<stdin>", line 1, in ?
+__main__.MyError: 'oops!'
+
+在这个例子中，类 Exception 预设的 __init__() 被覆盖。
+当建立一个模组有可能丢掷多种不同的异常时，一种通常的做法是为这个包建立一个基础异常类，然后基于这个基础类为不同的错误情况建立不同的子类:
+class Error(Exception):
+"""Base class for exceptions in this module."""
+pass
+
+class InputError(Error):
+"""Exception raised for errors in the input.
+
+Attributes:
+expression -- input expression in which the error occurred
+message -- explanation of the error
+"""
+
+def __init__(self, expression, message):
+self.expression = expression
+self.message = message
+
+class TransitionError(Error):
+"""Raised when an operation attempts a state transition that's not
+allowed.
+
+Attributes:
+previous -- state at beginning of transition
+next -- attempted new state
+message -- explanation of why the specific transition is not allowed
+"""
+
+def __init__(self, previous, next, message):
+self.previous = previous
+self.next = next
+self.message = message
+
+大多数的异常的名字都以"Error"结尾，就跟标准的异常命名一样。
+定义清理行为
+try 语句还有另外一个可选的子句，它定义了无论在任何情况下都会执行的清理行为。 例如:
+>>> try:
+...     raise KeyboardInterrupt
+... finally:
+...     print('Goodbye, world!')
+...
+Goodbye, world!
+Traceback (most recent call last):
+File "<stdin>", line 2, in <module>
+KeyboardInterrupt
+
+以上例子不管 try 子句里面有没有发生异常，finally 子句都会执行。
+如果一个异常在 try 子句里（或者在 except 和 else 子句里）被丢掷，而又没有任何的 except 把它截住，那么这个异常会在 finally 子句执行后被丢掷。
+下面是一个更加复杂的例子（在同一个 try 语句里包含 except 和 finally 子句）:
+>>> def divide(x, y):
+try:
+result = x / y
+except ZeroDivisionError:
+print("division by zero!")
+else:
+print("result is", result)
+finally:
+print("executing finally clause")
+
+>>> divide(2, 1)
+result is 2.0
+executing finally clause
+>>> divide(2, 0)
+division by zero!
+executing finally clause
+>>> divide("2", "1")
+executing finally clause
+Traceback (most recent call last):
+File "<stdin>", line 1, in ?
+File "<stdin>", line 3, in divide
+TypeError: unsupported operand type(s) for /: 'str' and 'str'
+
+预定义的清理行为
+一些物件定义了标准的清理行为，无论系统是否成功的使用了它，一旦不需要它了，那么这个标准的清理行为就会执行。
+这面这个例子展示了尝试开启一个档案，然后把内容打印到萤幕上:
+for line in open("myfile.txt"):
+print(line, end="")
+
+以上这段程式码的问题是，当执行完毕后，档案会保持开启状态，并没有被关闭。
+关键词 with 语句就可以保证诸如档案之类的物件在使用完之后一定会正确的执行他的清理方法:
+with open("myfile.txt") as f:
+for line in f:
+print(line, end="")
+
+以上这段程式码执行完毕后，就算在处理过程中出问题了，档案 f 总是会关闭。
+相关内容
+Python assert（断言）
+
+
+.sidebar-tree .double-li { width:300px; } .sidebar-tree .double-li li { width: 44%; line-height: 1.5em; border-bottom: 1px solid #ccc; float: left; display: inline; }
+分类导航
+HTML / CSS
+HTML 教程
+HTML5 教程
+CSS 教程
+CSS3 教程
+JavaScript
+JavaScript 教程
+jQuery 教程
+Node.js 教程
+服务端
+Python 教程
+Python3 教程
+Linux 教程
+Docker 教程
+Ruby 教程
+Java 教程
+JSP 教程
+C 教程
+C++ 教程
+Perl 教程
+Go 教程
+PHP 教程
+正则表达式
+数据库
+SQL 教程
+MySQL 教程
+PostgreSQL 教程
+SQLite 教程
+MongoDB 教程
+Redis 教程
+Memcached 教程
+行动端
+IOS 教程
+Swift 教程
+
+
+Advertisement
+Copyright © 2016-2021 IT阅读  Itread01.com All Rights Reserved.
+0.001291036605835

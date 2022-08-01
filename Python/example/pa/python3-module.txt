@@ -1,0 +1,204 @@
+Python3 模组 - Python3教学
+入门教学 -- 学的不仅是技术，更是梦想！
+首页
+HTML
+CSS
+JavaScript
+jQuery
+Python3
+Python2
+Java
+C
+C++
+Go
+SQL
+首页
+HTML
+Search
+Python3教学
+Python3 教程 Python3 简介 Python3 环境搭建 Python3 基础语法 Python3 基本资料型别 Python3 直译器 Python3 注释 Python3 运算子 Python3 数字(Number) Python3 字串 Python3 列表 Python3 元组 Python3 字典 Python3 集合 Python3 程式设计第一步 Python3 条件控制 Python3 循环语句 Python3 迭代器与生成器 Python3 函式 Python3 资料结构 Python3 模组 Python3 输入和输出 Python3 File 方法 Python3 OS 档案/目录方法 Python3 错误和异常 Python3 面向物件 Python3 名称空间和作用域 Python3 标准库概览 Python3 例项 Python3 正则表示式 Python3 CGI程式设计 Python MySQL – mysql-connector 驱动 Python3 MySQL 数据库连线 – PyMySQL 驱动 Python3 网络程式设计 Python3 SMTP传送邮件 Python3 多执行绪 Python3 XML 解析 Python3 JSON 资料解析 Python3 日期和时间 Python3 内建函式 Python MongoDB Python urllib Python uWSGI 安装配置
+ads
+HTML 基础
+Python3 模组
+Python3 模组
+在前面的几个章节中我们基本上是用 python 直译器来程式设计，如果你从 Python 直译器退出再进入，那么你定义的所有的方法和变数就都消失了。
+为此 Python 提供了一个办法，把这些定义存放在档案中，为一些指令码或者互动式的直译器例项使用，这个档案被称为模组。
+模组是一个包含所有你定义的函式和变数的档案，其后缀名是.py。模组可以被别的程式引入，以使用该模组中的函式等功能。这也是使用 python 标准库的方法。
+下面是一个使用 python 标准库中模组的例子。
+例项(Python 3.0+)
+#!/usr/bin/python3 # 档名: using_sys.py import sys print('命令列引数如下:') for i in sys.argv: print(i) print('\n\nPython 路径为：', sys.path, '\n')
+执行结果如下所示：
+$ python using_sys.py 引数1 引数2 命令列引数如下: using_sys.py 引数1 引数2 Python 路径为： ['/root', '/usr/lib/python3.4', '/usr/lib/python3.4/plat-x86_64-linux-gnu', '/usr/lib/python3.4/lib-dynload', '/usr/local/lib/python3.4/dist-packages', '/usr/lib/python3/dist-packages']
+1、import sys 引入 python 标准库中的 sys.py 模组；这是引入某一模组的方法。
+2、sys.argv 是一个包含命令列引数的列表。
+3、sys.path 包含了一个 Python 直译器自动查询所需模组的路径的列表。
+import 语句
+想使用 Python 原始档，只需在另一个原始档里执行 import 语句，语法如下：
+import module1[, module2[,... moduleN]
+当直译器遇到 import 语句，如果模组在当前的搜寻路径就会被汇入。
+搜寻路径是一个直译器会先进行搜寻的所有目录的列表。如想要汇入模组 support，需要把命令放在指令码的顶端：
+support.py 档案程式码
+#!/usr/bin/python3 # Filename: support.py def print_func( par ): print ("Hello : ", par) return
+test.py 引入 support 模组：
+test.py 档案程式码
+#!/usr/bin/python3 # Filename: test.py # 汇入模组 import support # 现在可以呼叫模组里包含的函数了 support.print_func("itread01")
+以上例项输出结果：
+$ python3 test.py Hello : itread01
+一个模组只会被汇入一次，不管你执行了多少次import。这样可以防止汇入模组被一遍又一遍地执行。
+当我们使用import语句的时候，Python直译器是怎样找到对应的档案的呢？
+这就涉及到Python的搜寻路径，搜寻路径是由一系列目录名组成的，Python直译器就依次从这些目录中去寻找所引入的模组。
+这看起来很像环境变数，事实上，也可以通过定义环境变数的方式来确定搜寻路径。
+搜寻路径是在Python编译或安装的时候确定的，安装新的库应该也会修改。搜寻路径被储存在sys模组中的path变数，做一个简单的实验，在互动式直译器中，输入以下程式码：
+>>> import sys >>> sys.path ['', '/usr/lib/python3.4', '/usr/lib/python3.4/plat-x86_64-linux-gnu', '/usr/lib/python3.4/lib-dynload', '/usr/local/lib/python3.4/dist-packages', '/usr/lib/python3/dist-packages'] >>>
+sys.path 输出是一个列表，其中第一项是空串''，代表当前目录（若是从一个指令码中打印出来的话，可以更清楚地看出是哪个目录），亦即我们执行python直译器的目录（对于指令码的话就是执行的指令码所在的目录）。
+因此若像我一样在当前目录下存在与要引入模组同名的档案，就会把要引入的模组遮蔽掉。
+了解了搜寻路径的概念，就可以在指令码中修改sys.path来引入一些不在搜寻路径中的模组。
+现在，在直译器的当前目录或者 sys.path 中的一个目录里面来建立一个fibo.py的档案，程式码如下：
+例项
+# 斐波那契(fibonacci)数列模组 def fib(n): # 定义到 n 的斐波那契数列 a, b = 0, 1 while b < n: print(b, end=' ') a, b = b, a+b print() def fib2(n): # 返回到 n 的斐波那契数列 result = [] a, b = 0, 1 while b < n: result.append(b) a, b = b, a+b return result
+然后进入Python直译器，使用下面的命令汇入这个模组：
+>>> import fibo
+这样做并没有把直接定义在fibo中的函式名称写入到当前符号表里，只是把模组fibo的名字写到了那里。
+可以使用模组名称来访问函式：
+例项
+>>>fibo.fib(1000) 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 >>> fibo.fib2(100) [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89] >>> fibo.__name__ 'fibo'
+如果你打算经常使用一个函式，你可以把它赋给一个本地的名称：
+>>> fib = fibo.fib >>> fib(500) 1 1 2 3 5 8 13 21 34 55 89 144 233 377
+
+
+from … import 语句
+Python 的 from 语句让你从模组中汇入一个指定的部分到当前名称空间中，语法如下：
+from modname import name1[, name2[, ... nameN]]
+例如，要汇入模组 fibo 的 fib 函式，使用如下语句：
+>>> from fibo import fib, fib2 >>> fib(500) 1 1 2 3 5 8 13 21 34 55 89 144 233 377
+这个宣告不会把整个fibo模组汇入到当前的名称空间中，它只会将fibo里的fib函式引入进来。
+
+
+from … import * 语句
+把一个模组的所有内容全都汇入到当前的名称空间也是可行的，只需使用如下宣告：
+from modname import *
+这提供了一个简单的方法来汇入一个模组中的所有专案。然而这种宣告不该被过多地使用。
+深入模组
+模组除了方法定义，还可以包括可执行的程式码。这些程式码一般用来初始化这个模组。这些程式码只有在第一次被汇入时才会被执行。
+每个模组有各自独立的符号表，在模组内部为所有的函式当作全域性符号表来使用。
+所以，模组的作者可以放心大胆的在模组内部使用这些全域性变数，而不用担心把其他使用者的全域性变数搞混。
+从另一个方面，当你确实知道你在做什么的话，你也可以通过 modname.itemname 这样的表示法来访问模组内的函式。
+模组是可以汇入其他模组的。在一个模组（或者指令码，或者其他地方）的最前面使用 import 来汇入一个模组，当然这只是一个惯例，而不是强制的。被汇入的模组的名称将被放入当前操作的模组的符号表中。
+还有一种汇入的方法，可以使用 import 直接把模组内（函式，变数的）名称汇入到当前操作模组。比如:
+>>> from fibo import fib, fib2 >>> fib(500) 1 1 2 3 5 8 13 21 34 55 89 144 233 377
+这种汇入的方法不会把被汇入的模组的名称放在当前的字元表中（所以在这个例子里面，fibo 这个名称是没有定义的）。
+这还有一种方法，可以一次性的把模组中的所有（函式，变数）名称都汇入到当前模组的字元表:
+>>> from fibo import * >>> fib(500) 1 1 2 3 5 8 13 21 34 55 89 144 233 377
+这将把所有的名字都汇入进来，但是那些由单一下划线（_）开头的名字不在此例。大多数情况， Python程序员不使用这种方法，因为引入的其它来源的命名，很可能覆盖了已有的定义。
+__name__属性
+一个模组被另一个程式第一次引入时，其主程式将执行。如果我们想在模组被引入时，模组中的某一程式块不执行，我们可以用__name__属性来使该程式块仅在该模组自身执行时执行。
+#!/usr/bin/python3 # Filename: using_name.py if __name__ == '__main__': print('程式自身在执行') else: print('我来自另一模组')
+执行输出如下：
+$ python using_name.py 程式自身在执行
+$ python >>> import using_name 我来自另一模组 >>>
+说明： 每个模组都有一个__name__属性，当其值是'__main__'时，表明该模组自身在执行，否则是被引入。
+说明：__name__ 与 __main__ 底下是双下划线， _ _ 是这样去掉中间的那个空格。
+dir() 函式
+内建的函式 dir() 可以找到模组内定义的所有名称。以一个字串列表的形式返回:
+>>> import fibo, sys >>> dir(fibo) ['__name__', 'fib', 'fib2'] >>> dir(sys) ['__displayhook__', '__doc__', '__excepthook__', '__loader__', '__name__', '__package__', '__stderr__', '__stdin__', '__stdout__', '_clear_type_cache', '_current_frames', '_debugmallocstats', '_getframe', '_home', '_mercurial', '_xoptions', 'abiflags', 'api_version', 'argv', 'base_exec_prefix', 'base_prefix', 'builtin_module_names', 'byteorder', 'call_tracing', 'callstats', 'copyright', 'displayhook', 'dont_write_bytecode', 'exc_info', 'excepthook', 'exec_prefix', 'executable', 'exit', 'flags', 'float_info', 'float_repr_style', 'getcheckinterval', 'getdefaultencoding', 'getdlopenflags', 'getfilesystemencoding', 'getobjects', 'getprofile', 'getrecursionlimit', 'getrefcount', 'getsizeof', 'getswitchinterval', 'gettotalrefcount', 'gettrace', 'hash_info', 'hexversion', 'implementation', 'int_info', 'intern', 'maxsize', 'maxunicode', 'meta_path', 'modules', 'path', 'path_hooks', 'path_importer_cache', 'platform', 'prefix', 'ps1', 'setcheckinterval', 'setdlopenflags', 'setprofile', 'setrecursionlimit', 'setswitchinterval', 'settrace', 'stderr', 'stdin', 'stdout', 'thread_info', 'version', 'version_info', 'warnoptions']
+如果没有给定引数，那么 dir() 函式会罗列出当前定义的所有名称:
+>>> a = [1, 2, 3, 4, 5] >>> import fibo >>> fib = fibo.fib >>> dir() # 得到一个当前模组中定义的属性列表 ['__builtins__', '__name__', 'a', 'fib', 'fibo', 'sys'] >>> a = 5 # 建立一个新的变数 'a' >>> dir() ['__builtins__', '__doc__', '__name__', 'a', 'sys'] >>> >>> del a # 删除变数名a >>> >>> dir() ['__builtins__', '__doc__', '__name__', 'sys'] >>>
+标准模组
+Python 本身带着一些标准的模组库，在 Python 库参考文件中将会介绍到（就是后面的"库参考文件"）。
+有些模组直接被构建在解析器里，这些虽然不是一些语言内建的功能，但是他却能很高效的使用，甚至是系统级呼叫也没问题。
+这些元件会根据不同的操作系统进行不同形式的配置，比如 winreg 这个模组就只会提供给 Windows 系统。
+应该注意到这有一个特别的模组 sys ，它内建在每一个 Python 解析器中。变数 sys.ps1 和 sys.ps2 定义了主提示符和副提示符所对应的字串:
+>>> import sys >>> sys.ps1 '>>> ' >>> sys.ps2 '... ' >>> sys.ps1 = 'C> ' C> print('itread01!') itread01! C>
+包
+包是一种管理 Python 模组名称空间的形式，采用"点模组名称"。
+比如一个模组的名称是 A.B， 那么他表示一个包 A中的子模组 B 。
+就好像使用模组的时候，你不用担心不同模组之间的全域性变数相互影响一样，采用点模组名称这种形式也不用担心不同库之间的模组重名的情况。
+这样不同的作者都可以提供 NumPy 模组，或者是 Python 图形库。
+不妨假设你想设计一套统一处理声音档案和资料的模组（或者称之为一个"包"）。
+现存很多种不同的音讯档案格式（基本上都是通过后缀名区分的，例如： .wav，:file:.aiff，:file:.au，），所以你需要有一组不断增加的模组，用来在不同的格式之间转换。
+并且针对这些音讯资料，还有很多不同的操作（比如混音，添加回声，增加均衡器功能，建立人造立体声效果），所以你还需要一组怎么也写不完的模组来处理这些操作。
+这里给出了一种可能的包结构（在分层的档案系统中）:
+sound/ 顶层包 __init__.py 初始化 sound 包 formats/ 档案格式转换子包 __init__.py wavread.py wavwrite.py aiffread.py aiffwrite.py auread.py auwrite.py ... effects/ 声音效果子包 __init__.py echo.py surround.py reverse.py ... filters/ filters 子包 __init__.py equalizer.py vocoder.py karaoke.py ...
+在汇入一个包的时候，Python 会根据 sys.path 中的目录来寻找这个包中包含的子目录。
+目录只有包含一个叫做 __init__.py 的档案才会被认作是一个包，主要是为了避免一些滥俗的名字（比如叫做 string）不小心的影响搜寻路径中的有效模组。
+最简单的情况，放一个空的 :file:__init__.py就可以了。当然这个档案中也可以包含一些初始化程式码或者为（将在后面介绍的） __all__变数赋值。
+使用者可以每次只汇入一个包里面的特定模组，比如:
+import sound.effects.echo
+这将会汇入子模组:sound.effects.echo。 他必须使用全名去访问:
+sound.effects.echo.echofilter(input, output, delay=0.7, atten=4)
+还有一种汇入子模组的方法是:
+from sound.effects import echo
+这同样会汇入子模组: echo，并且他不需要那些冗长的字首，所以他可以这样使用:
+echo.echofilter(input, output, delay=0.7, atten=4)
+还有一种变化就是直接汇入一个函式或者变数:
+from sound.effects.echo import echofilter
+同样的，这种方法会汇入子模组: echo，并且可以直接使用他的 echofilter() 函式:
+echofilter(input, output, delay=0.7, atten=4)
+注意当使用 from package import item 这种形式的时候，对应的 item 既可以是包里面的子模组（子包），或者包里面定义的其他名称，比如函式，类或者变数。
+import 语法会首先把 item 当作一个包定义的名称，如果没找到，再试图按照一个模组去汇入。如果还没找到，丢掷一个 :exc:ImportError 异常。
+反之，如果使用形如 import item.subitem.subsubitem 这种汇入形式，除了最后一项，都必须是包，而最后一项则可以是模组或者是包，但是不可以是类，函式或者变数的名字。
+从一个包中汇入*
+如果我们使用 from sound.effects import * 会发生什么呢？
+Python 会进入档案系统，找到这个包里面所有的子模组，然后一个一个的把它们都汇入进来。
+但这个方法在 Windows 平台上工作的就不是非常好，因为 Windows 是一个不区分大小写的系统。
+在 Windows 平台平台上，我们无法确定一个叫做 ECHO.py 的档案汇入为模组是 echo 还是 Echo，或者是 ECHO。
+为了解决这个问题，我们只需要提供一个精确包的索引。
+汇入语句遵循如下规则：如果包定义档案 __init__.py 存在一个叫做 __all__ 的列表变数，那么在使用 from package import * 的时候就把这个列表中的所有名字作为包内容汇入。
+作为包的作者，可别忘了在更新包之后保证 __all__ 也更新了啊。
+以下例项在 file:sounds/effects/__init__.py 中包含如下程式码:
+__all__ = ["echo", "surround", "reverse"]
+这表示当你使用from sound.effects import *这种用法时，你只会汇入包里面这三个子模组。
+如果 __all__ 真的没有定义，那么使用from sound.effects import *这种语法的时候，就不会汇入包 sound.effects 里的任何子模组。他只是把包sound.effects和它里面定义的所有内容汇入进来（可能执行__init__.py里定义的初始化程式码）。
+这会把 __init__.py 里面定义的所有名字汇入进来。并且他不会破坏掉我们在这句话之前汇入的所有明确指定的模组。看下这部分程式码:
+import sound.effects.echo import sound.effects.surround from sound.effects import *
+这个例子中，在执行 from...import 前，包 sound.effects 中的 echo 和 surround 模组都被汇入到当前的名称空间中了。（当然如果定义了 __all__ 就更没问题了）
+通常我们并不主张使用 * 这种方法来汇入模组，因为这种方法经常会导致程式码的可读性降低。不过这样倒的确是可以省去不少敲键的功夫，而且一些模组都设计成了只能通过特定的方法汇入。
+记住，使用 from Package import specific_submodule 这种方法永远不会有错。事实上，这也是推荐的方法。除非是你要汇入的子模组有可能和其他包的子模组重名。
+如果在结构中包是一个子包（比如这个例子中对于包sound来说），而你又想汇入兄弟包（同级别的包）你就得使用汇入绝对的路径来汇入。比如，如果模组sound.filters.vocoder 要使用包 sound.effects 中的模组 echo，你就要写成 from sound.effects import echo。
+from . import echo from .. import formats from ..filters import equalizer
+无论是隐式的还是显式的相对汇入都是从当前模组开始的。主模组的名字永远是"__main__"，一个Python应用程序的主模组，应当总是使用绝对路径引用。
+包还提供一个额外的属性__path__。这是一个目录列表，里面每一个包含的目录都有为这个包服务的__init__.py，你得在其他__init__.py被执行前定义哦。可以修改这个变数，用来影响包含在包里面的模组和子包。
+这个功能并不常用，一般用来扩充套件包里面的模组。
+
+
+.sidebar-tree .double-li { width:300px; } .sidebar-tree .double-li li { width: 44%; line-height: 1.5em; border-bottom: 1px solid #ccc; float: left; display: inline; }
+分类导航
+HTML / CSS
+HTML 教程
+HTML5 教程
+CSS 教程
+CSS3 教程
+JavaScript
+JavaScript 教程
+jQuery 教程
+Node.js 教程
+服务端
+Python 教程
+Python3 教程
+Linux 教程
+Docker 教程
+Ruby 教程
+Java 教程
+JSP 教程
+C 教程
+C++ 教程
+Perl 教程
+Go 教程
+PHP 教程
+正则表达式
+数据库
+SQL 教程
+MySQL 教程
+PostgreSQL 教程
+SQLite 教程
+MongoDB 教程
+Redis 教程
+Memcached 教程
+行动端
+IOS 教程
+Swift 教程
+
+
+Advertisement
+Copyright © 2016-2021 IT阅读  Itread01.com All Rights Reserved.
+0.001291036605835

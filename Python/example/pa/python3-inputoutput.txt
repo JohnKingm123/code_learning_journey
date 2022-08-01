@@ -1,0 +1,473 @@
+Python3 输入和输出 - Python3教学
+入门教学 -- 学的不仅是技术，更是梦想！
+首页
+HTML
+CSS
+JavaScript
+jQuery
+Python3
+Python2
+Java
+C
+C++
+Go
+SQL
+首页
+HTML
+Search
+Python3教学
+Python3 教程 Python3 简介 Python3 环境搭建 Python3 基础语法 Python3 基本资料型别 Python3 直译器 Python3 注释 Python3 运算子 Python3 数字(Number) Python3 字串 Python3 列表 Python3 元组 Python3 字典 Python3 集合 Python3 程式设计第一步 Python3 条件控制 Python3 循环语句 Python3 迭代器与生成器 Python3 函式 Python3 资料结构 Python3 模组 Python3 输入和输出 Python3 File 方法 Python3 OS 档案/目录方法 Python3 错误和异常 Python3 面向物件 Python3 名称空间和作用域 Python3 标准库概览 Python3 例项 Python3 正则表示式 Python3 CGI程式设计 Python MySQL – mysql-connector 驱动 Python3 MySQL 数据库连线 – PyMySQL 驱动 Python3 网络程式设计 Python3 SMTP传送邮件 Python3 多执行绪 Python3 XML 解析 Python3 JSON 资料解析 Python3 日期和时间 Python3 内建函式 Python MongoDB Python urllib Python uWSGI 安装配置
+ads
+HTML 基础
+Python3 输入和输出
+Python3 输入和输出
+在前面几个章节中，我们其实已经接触了 Python 的输入输出的功能。本章节我们将具体介绍 Python 的输入输出。
+输出格式美化
+Python两种输出值的方式: 表示式语句和 print() 函式。
+第三种方式是使用档案物件的 write() 方法，标准输出档案可以用 sys.stdout 引用。
+如果你希望输出的形式更加多样，可以使用 str.format() 函式来格式化输出值。
+如果你希望将输出的值转成字串，可以使用 repr() 或 str() 函式来实现。
+str()： 函式返回一个使用者易读的表达形式。
+repr()： 产生一个直译器易读的表达形式。
+例如
+>>> s = 'Hello, itread01'
+>>> str(s)
+'Hello, itread01'
+>>> repr(s)
+"'Hello, itread01'"
+>>> str(1/7)
+'0.14285714285714285'
+>>> x = 10 * 3.25
+>>> y = 200 * 200
+>>> s = 'x 的值为： ' + repr(x) + ',  y 的值为：' + repr(y) + '...'
+>>> print(s)
+x 的值为： 32.5,  y 的值为：40000...
+>>> #  repr() 函式可以转义字串中的特殊字元
+... hello = 'hello, itread01\n'
+>>> hellos = repr(hello)
+>>> print(hellos)
+'hello, itread01\n'
+>>> # repr() 的引数可以是 Python 的任何物件
+... repr((x, y, ('Google', 'itread01')))
+"(32.5, 40000, ('Google', 'itread01'))"
+
+这里有两种方式输出一个平方与立方的表:
+>>> for x in range(1, 11):
+...     print(repr(x).rjust(2), repr(x*x).rjust(3), end=' ')
+...     # 注意前一行 'end' 的使用
+...     print(repr(x*x*x).rjust(4))
+...
+1   1    1
+2   4    8
+3   9   27
+4  16   64
+5  25  125
+6  36  216
+7  49  343
+8  64  512
+9  81  729
+10 100 1000
+
+>>> for x in range(1, 11):
+...     print('{0:2d} {1:3d} {2:4d}'.format(x, x*x, x*x*x))
+...
+1   1    1
+2   4    8
+3   9   27
+4  16   64
+5  25  125
+6  36  216
+7  49  343
+8  64  512
+9  81  729
+10 100 1000
+
+注意：在第一个例子中, 每列间的空格由 print() 新增。
+这个例子展示了字串物件的 rjust() 方法, 它可以将字串靠右, 并在左边填充空格。
+还有类似的方法, 如 ljust() 和 center()。 这些方法并不会写任何东西, 它们仅仅返回新的字串。
+另一个方法 zfill(), 它会在数字的左边填充 0，如下所示：
+>>> '12'.zfill(5)
+'00012'
+>>> '-3.14'.zfill(7)
+'-003.14'
+>>> '3.14159265359'.zfill(5)
+'3.14159265359'
+
+str.format() 的基本使用如下:
+>>> print('{}网址： "{}!"'.format('入门教学', 'www.itread01.com'))
+入门教学网址： "www.itread01.com!"
+
+括号及其里面的字元 (称作格式化字段) 将会被 format() 中的引数替换。
+在括号中的数字用于指向传入物件在 format() 中的位置，如下所示：
+>>> print('{0} 和 {1}'.format('Google', 'itread01'))
+Google 和 itread01
+>>> print('{1} 和 {0}'.format('Google', 'itread01'))
+itread01 和 Google
+
+如果在 format() 中使用了关键字引数, 那么它们的值会指向使用该名字的引数。
+>>> print('{name}网址： {site}'.format(name='入门教学', site='www.itread01.com'))
+入门教学网址： www.itread01.com
+
+位置及关键字引数可以任意的结合:
+>>> print('站点列表 {0}, {1}, 和 {other}。'.format('Google', 'itread01', other='Taobao'))
+站点列表 Google, itread01, 和 Taobao。
+
+!a (使用 ascii()), !s (使用 str()) 和 !r (使用 repr()) 可以用于在格式化某个值之前对其进行转化:
+>>> import math
+>>> print('常量 PI 的值近似为： {}。'.format(math.pi))
+常量 PI 的值近似为： 3.141592653589793。
+>>> print('常量 PI 的值近似为： {!r}。'.format(math.pi))
+常量 PI 的值近似为： 3.141592653589793。
+
+可选项 : 和格式识别符号可以跟着字段名。 这就允许对值进行更好的格式化。 下面的例子将 Pi 保留到小数点后三位：
+>>> import math
+>>> print('常量 PI 的值近似为 {0:.3f}。'.format(math.pi))
+常量 PI 的值近似为 3.142。
+
+在 : 后传入一个整数, 可以保证该域至少有这么多的宽度。 用于美化表格时很有用。
+>>> table = {'Google': 1, 'itread01': 2, 'Taobao': 3}
+>>> for name, number in table.items():
+...     print('{0:10} ==> {1:10d}'.format(name, number))
+...
+Google     ==>          1
+itread01     ==>          2
+Taobao     ==>          3
+
+如果你有一个很长的格式化字串, 而你不想将它们分开, 那么在格式化时通过变数名而非位置会是很好的事情。
+最简单的就是传入一个字典, 然后使用方括号 [] 来访问键值 :
+>>> table = {'Google': 1, 'itread01': 2, 'Taobao': 3}
+>>> print('itread01: {0[itread01]:d}; Google: {0[Google]:d}; Taobao: {0[Taobao]:d}'.format(table))
+itread01: 2; Google: 1; Taobao: 3
+
+也可以通过在 table 变数前使用 ** 来实现相同的功能：
+>>> table = {'Google': 1, 'itread01': 2, 'Taobao': 3}
+>>> print('itread01: {itread01:d}; Google: {Google:d}; Taobao: {Taobao:d}'.format(**table))
+itread01: 2; Google: 1; Taobao: 3
+
+旧式字串格式化
+% 操作符也可以实现字串格式化。 它将左边的引数作为类似 sprintf() 式的格式化字串, 而将右边的代入, 然后返回格式化后的字串. 例如:
+>>> import math
+>>> print('常量 PI 的值近似为：%5.3f。' % math.pi)
+常量 PI 的值近似为：3.142。
+
+因为 str.format() 是比较新的函式， 大多数的 Python 程式码仍然使用 % 操作符。但是因为这种旧式的格式化最终会从该语言中移除, 应该更多的使用 str.format().
+读取键盘输入
+Python 提供了 input() 内建函式从标准输入读入一行文字，预设的标准输入是键盘。
+例项
+#!/usr/bin/python3
+
+str = input("请输入：");
+print ("你输入的内容是: ", str)
+
+这会产生如下的对应着输入的结果：
+请输入：入门教学 你输入的内容是: 入门教学
+读和写档案
+open() 将会返回一个 file 物件，基本语法格式如下:
+open(filename, mode)
+filename：包含了你要访问的档名称的字串值。
+mode：决定了开启档案的模式：只读，写入，追加等。所有可取值见如下的完全列表。这个引数是非强制的，预设档案访问模式为只读(r)。
+不同模式开启档案的完全列表：
+模式
+描述
+r
+以只读方式开启档案。档案的指标将会放在档案的开头。这是预设模式。
+rb
+以二进位制格式开启一个档案用于只读。档案指标将会放在档案的开头。
+r+
+开启一个档案用于读写。档案指标将会放在档案的开头。
+rb+
+以二进位制格式开启一个档案用于读写。档案指标将会放在档案的开头。
+w
+开启一个档案只用于写入。如果该档案已存在则开启档案，并从开头开始编辑，即原有内容会被删除。如果该档案不存在，建立新档案。
+wb
+以二进位制格式开启一个档案只用于写入。如果该档案已存在则开启档案，并从开头开始编辑，即原有内容会被删除。如果该档案不存在，建立新档案。
+w+
+开启一个档案用于读写。如果该档案已存在则开启档案，并从开头开始编辑，即原有内容会被删除。如果该档案不存在，建立新档案。
+wb+
+以二进位制格式开启一个档案用于读写。如果该档案已存在则开启档案，并从开头开始编辑，即原有内容会被删除。如果该档案不存在，建立新档案。
+a
+开启一个档案用于追加。如果该档案已存在，档案指标将会放在档案的结尾。也就是说，新的内容将会被写入到已有内容之后。如果该档案不存在，建立新档案进行写入。
+ab
+以二进位制格式开启一个档案用于追加。如果该档案已存在，档案指标将会放在档案的结尾。也就是说，新的内容将会被写入到已有内容之后。如果该档案不存在，建立新档案进行写入。
+a+
+开启一个档案用于读写。如果该档案已存在，档案指标将会放在档案的结尾。档案开启时会是追加模式。如果该档案不存在，建立新档案用于读写。
+ab+
+以二进位制格式开启一个档案用于追加。如果该档案已存在，档案指标将会放在档案的结尾。如果该档案不存在，建立新档案用于读写。
+下图很好的总结了这几种模式：
+模式
+r
+r+
+w
+w+
+a
+a+
+读
++
++
++
++
+写
++
++
++
++
++
+建立
++
++
++
++
+覆盖
++
++
+指标在开始
++
++
++
++
+指标在结尾
++
++
+以下例项将字串写入到档案 foo.txt 中：
+例项
+#!/usr/bin/python3
+
+# 开启一个档案
+f = open("/tmp/foo.txt", "w")
+
+f.write( "Python 是一个非常好的语言。\n是的，的确非常好!!\n" )
+
+# 关闭开启的档案
+f.close()
+
+第一个引数为要开启的档名。
+第二个引数描述档案如何使用的字元。 mode 可以是 'r' 如果档案只读, 'w' 只用于写 (如果存在同名档案则将被删除), 和 'a' 用于追加档案内容; 所写的任何资料都会被自动增加到末尾. 'r+' 同时用于读写。 mode 引数是可选的; 'r' 将是预设值。
+此时开启档案 foo.txt,显示如下：
+$ cat /tmp/foo.txt Python 是一个非常好的语言。 是的，的确非常好!!
+档案物件的方法
+本节中剩下的例子假设已经建立了一个称为 f 的档案物件。
+f.read()
+为了读取一个档案的内容，呼叫 f.read(size), 这将读取一定数目的资料, 然后作为字串或字节物件返回。
+size 是一个可选的数字型别的引数。 当 size 被忽略了或者为负, 那么该档案的所有内容都将被读取并且返回。
+以下例项假定档案 foo.txt 已存在（上面例项中已建立）：
+例项
+#!/usr/bin/python3
+
+# 开启一个档案
+f = open("/tmp/foo.txt", "r")
+
+str = f.read()
+print(str)
+
+# 关闭开启的档案
+f.close()
+
+执行以上程式，输出结果为：
+Python 是一个非常好的语言。 是的，的确非常好!!
+f.readline()
+f.readline() 会从档案中读取单独的一行。换行符为 '\n'。f.readline() 如果返回一个空字串, 说明已经已经读取到最后一行。
+例项
+#!/usr/bin/python3
+
+# 开启一个档案
+f = open("/tmp/foo.txt", "r")
+
+str = f.readline()
+print(str)
+
+# 关闭开启的档案
+f.close()
+
+执行以上程式，输出结果为：
+Python 是一个非常好的语言。
+f.readlines()
+f.readlines() 将返回该档案中包含的所有行。
+如果设定可选引数 sizehint, 则读取指定长度的字节, 并且将这些字节按行分割。
+例项
+#!/usr/bin/python3
+
+# 开启一个档案
+f = open("/tmp/foo.txt", "r")
+
+str = f.readlines()
+print(str)
+
+# 关闭开启的档案
+f.close()
+
+执行以上程式，输出结果为：
+['Python 是一个非常好的语言。\n', '是的，的确非常好!!\n']
+另一种方式是迭代一个档案物件然后读取每行:
+例项
+#!/usr/bin/python3
+
+# 开启一个档案
+f = open("/tmp/foo.txt", "r")
+
+for line in f:
+print(line, end='')
+
+# 关闭开启的档案
+f.close()
+
+执行以上程式，输出结果为：
+Python 是一个非常好的语言。 是的，的确非常好!!
+这个方法很简单, 但是并没有提供一个很好的控制。 因为两者的处理机制不同, 最好不要混用。
+f.write()
+f.write(string) 将 string 写入到档案中, 然后返回写入的字元数。
+例项
+#!/usr/bin/python3
+
+# 开启一个档案
+f = open("/tmp/foo.txt", "w")
+
+num = f.write( "Python 是一个非常好的语言。\n是的，的确非常好!!\n" )
+print(num)
+# 关闭开启的档案
+f.close()
+
+执行以上程式，输出结果为：
+29
+如果要写入一些不是字串的东西, 那么将需要先进行转换:
+例项
+#!/usr/bin/python3
+
+# 开启一个档案
+f = open("/tmp/foo1.txt", "w")
+
+value = ('www.itread01.com', 14)
+s = str(value)
+f.write(s)
+
+# 关闭开启的档案
+f.close()
+
+执行以上程式，开启 foo1.txt 档案：
+$ cat /tmp/foo1.txt ('www.itread01.com', 14)
+f.tell()
+f.tell() 返回档案物件当前所处的位置, 它是从档案开头开始算起的字节数。
+f.seek()
+如果要改变档案当前的位置, 可以使用 f.seek(offset, from_what) 函式。
+from_what 的值, 如果是 0 表示开头, 如果是 1 表示当前位置, 2 表示档案的结尾，例如：
+seek(x,0) ： 从起始位置即档案首行首字元开始移动 x 个字元
+seek(x,1) ： 表示从当前位置往后移动x个字元
+seek(-x,2)：表示从档案的结尾往前移动x个字元
+from_what 值为预设为0，即档案开头。下面给出一个完整的例子：
+>>> f = open('/tmp/foo.txt', 'rb+')
+>>> f.write(b'0123456789abcdef')
+16
+>>> f.seek(5)     # 移动到档案的第六个字节
+5
+>>> f.read(1)
+b'5'
+>>> f.seek(-3, 2) # 移动到档案的倒数第三字节
+13
+>>> f.read(1)
+b'd'
+
+f.close()
+在文字档案中 (那些开启档案的模式下没有 b 的), 只会相对于档案起始位置进行定位。
+当你处理完一个档案后, 呼叫 f.close() 来关闭档案并释放系统的资源，如果尝试再呼叫该档案，则会丢掷异常。
+>>> f.close()
+>>> f.read()
+Traceback (most recent call last):
+File "<stdin>", line 1, in ?
+ValueError: I/O operation on closed file
+
+当处理一个档案物件时, 使用 with 关键字是非常好的方式。在结束后, 它会帮你正确的关闭档案。 而且写起来也比 try - finally 语句块要简短:
+>>> with open('/tmp/foo.txt', 'r') as f:
+...     read_data = f.read()
+>>> f.closed
+True
+
+档案物件还有其他方法, 如 isatty() 和 trucate(), 但这些通常比较少用。
+pickle 模组
+python的pickle模组实现了基本的资料序列和反序列化。
+通过pickle模组的序列化操作我们能够将程式中执行的物件资讯储存到档案中去，永久储存。
+通过pickle模组的反序列化操作，我们能够从档案中建立上一次程式储存的物件。
+基本界面：
+pickle.dump(obj, file, [,protocol])
+有了 pickle 这个物件, 就能对 file 以读取的形式开启:
+x = pickle.load(file)
+注解：从 file 中读取一个字串，并将它重构为原来的python物件。
+file: 类档案物件，有read()和readline()界面。
+例项 1
+#!/usr/bin/python3
+import pickle
+
+# 使用pickle模组将资料物件储存到档案
+data1 = {'a': [1, 2.0, 3, 4+6j],
+'b': ('string', u'Unicode string'),
+'c': None}
+
+selfref_list = [1, 2, 3]
+selfref_list.append(selfref_list)
+
+output = open('data.pkl', 'wb')
+
+# Pickle dictionary using protocol 0.
+pickle.dump(data1, output)
+
+# Pickle the list using the highest protocol available.
+pickle.dump(selfref_list, output, -1)
+
+output.close()
+
+例项 2
+#!/usr/bin/python3
+import pprint, pickle
+
+#使用pickle模组从档案中重构python物件
+pkl_file = open('data.pkl', 'rb')
+
+data1 = pickle.load(pkl_file)
+pprint.pprint(data1)
+
+data2 = pickle.load(pkl_file)
+pprint.pprint(data2)
+
+pkl_file.close()
+
+
+
+.sidebar-tree .double-li { width:300px; } .sidebar-tree .double-li li { width: 44%; line-height: 1.5em; border-bottom: 1px solid #ccc; float: left; display: inline; }
+分类导航
+HTML / CSS
+HTML 教程
+HTML5 教程
+CSS 教程
+CSS3 教程
+JavaScript
+JavaScript 教程
+jQuery 教程
+Node.js 教程
+服务端
+Python 教程
+Python3 教程
+Linux 教程
+Docker 教程
+Ruby 教程
+Java 教程
+JSP 教程
+C 教程
+C++ 教程
+Perl 教程
+Go 教程
+PHP 教程
+正则表达式
+数据库
+SQL 教程
+MySQL 教程
+PostgreSQL 教程
+SQLite 教程
+MongoDB 教程
+Redis 教程
+Memcached 教程
+行动端
+IOS 教程
+Swift 教程
+
+
+Advertisement
+Copyright © 2016-2021 IT阅读  Itread01.com All Rights Reserved.
+0.001291036605835

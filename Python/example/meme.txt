@@ -1,0 +1,42 @@
+Help on built-in function print in module builtins:
+
+print(...)
+    print(value, ..., sep=' ', end='\n', file=sys.stdout, flush=False)
+    
+    Prints the values to a stream, or to sys.stdout by default.
+    Optional keyword arguments:
+    file:  a file-like object (stream); defaults to the current sys.stdout.
+    sep:   string inserted between values, default a space.
+    end:   string appended after the last value, default a newline.
+    flush: whether to forcibly flush the stream.
+
+Help on built-in function len in module builtins:
+
+len(obj, /)
+    Return the number of items in a container.
+
+Help on built-in function all in module builtins:
+
+all(iterable, /)
+    Return True if bool(x) is True for all values x in the iterable.
+    
+    If the iterable is empty, return True.
+
+Help on built-in function any in module builtins:
+
+any(iterable, /)
+    Return True if bool(x) is True for any x in the iterable.
+    
+    If the iterable is empty, return False.
+
+Help on built-in function max in module builtins:
+
+max(...)
+    max(iterable, *[, default=obj, key=func]) -> value
+    max(arg1, arg2, *args, *[, key=func]) -> value
+    
+    With a single iterable argument, return its biggest item. The
+    default keyword-only argument specifies an object to return if
+    the provided iterable is empty.
+    With two or more arguments, return the largest argument.
+

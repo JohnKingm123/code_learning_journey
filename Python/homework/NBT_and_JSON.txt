@@ -1,0 +1,543 @@
+分类: 教程、中文独有教程
+不转换
+简体
+繁體
+大陆简体
+香港繁體
+澳門繁體
+大马简体
+新加坡简体
+台灣正體
+教程/NBT与JSON
+< 教程
+编辑
+编辑源代码
+历史
+讨论 (4)
+本页面不适合使用可视化编辑器编辑
+本页含有大量的样式等技术性内容，可视化编辑器可能无法很好地处理。
+本教程主要讲述NBT以及JSON的语法和用法。关于NBT标签的实际用法可以参见教程/NBT命令标签。
+目录
+1 用途概览
+2 NBT的语法
+2.1 简单的NBT
+2.2 值的常见类型
+2.3 复合标签
+2.4 列表
+2.5 转义
+3 NBT路径的表示方法
+4 JSON的语法
+5 JSON的用途
+6 JSON用于基岩版命令
+用途概览[]
+在命令中，NBT可用于（以Java版为例）：
+实体数据：如/summon minecraft:creeper ~ ~ ~ {powered:1b}（召唤一只闪电苦力怕）。
+实体选择器，通过NBT选择实体：如/kill @e[type=creeper,nbt={powered:1b}]（杀死所有闪电苦力怕）。
+方块数据：例如/setblock ~ ~-1 ~ command_block{Command:"say 1"}。
+物品数据：比如/give @s diamond_block{CanPlaceOn:["dirt"]}表示给予玩家一个即使在冒险模式也可以放置在泥土上的钻石块。
+世界存储：用于/data data (get merge modify) storage ...。
+JSON可以在命令和数据包中使用。在命令中的使用，如：
+直接在命令中使用JSON文本：通常用于/tellraw和/title命令，如/tellraw @s {"text":"点击此处自杀","clickEvent":{"action":"run_command","value":"/kill @s"}}。在上述实例中，红色文字表示的是JSON。
+在命令的NBT中间接使用JSON文本：需要注意NBT中必须变成字符串格式。而且，在Java版1.14之前，由于NBT不支持单引号字符串，因此一般需要转义。自Java版1.14之后，NBT字符串允许使用单引号，因此通常不再需要转义，节省了许多代码。包括：
+告示牌文本内容：如/setblock ~ ~ ~ minecraft:oak_sign{Text1:'"第一行文本"',Text2:'{"text":"第二行文本，我是红色的！","color":"red"}'}。
+物品名称和描述：如/give @s minecraft:diamond_sword{display:{Name:'{"text":"不普通的钻石剑","color":"dark_red","italic":false}'}}
+成书的内容。
+JSON在数据包和资源包中也十分普遍。语言文件（例如zh_cn.json）、方块和物品的模型、进度、配方、战利品表、标签、自定义维度等等都是由JSON文件定义的。
+下面将会详细介绍NBT和JSON的数据结构和语法。
+
+
+NBT的语法[]
+NBT本质上是按照一定的结构存储的数据。通常NBT本身是一个复合标签（compound），它类似于一个Lua的表（table）、JSON的对象（object）或Python的字典（dict）。一个复合标签有多个标签（tag，或者称为字段），每个标签都包含键（key，也成为标签名称）和值（value）。
+如果您理解表或对象的概念，您应该很快就理解NBT复合标签的含义，可以跳过这一段。如果不理解，我们可以我们做一个类比，以“石头”为例，它的名称是石头，它的硬度为硬，它的透光性为不透光，其开采工具为镐；以“玻璃”为例，其名称是玻璃，硬度为软，透光性为透光，开采工具为无。这里的“硬度”“透光性”等，都是键；“硬”“不透光”则是其值。因此，我们可以编写出下面的表格（仅以“石头”为例）：
+“石头”的数据
+键
+值
+名称
+石头
+硬度
+硬
+透光性
+不透光
+开采工具
+镐
+这个表格的第一列的内容是键，第二列是值。我们也可以这样简单表示（只是一个类比以便理解）：{名称:石头,硬度:硬,透光性:不透光,开采工具:镐}。不难看出。这里面的冒号和逗号与我们平时使用的冒号和逗号都有类似的含义。
+每一个字段的值除了是一个数值或字符串之外，还可以是一个新的复合标签，或者是另一个列表。后面的内容会详细提到。
+参考下面这些实例，有助于更好地了解NBT的写法。
+简单的NBT[]
+参见：命令§数据标签和NBT格式§标签的定义
+以下面的命令为例：/summon minecraft:zombie ~ ~ ~ {CustomName:'{"text":"快乐的小僵尸"}', CustomNameVisible: 1, IsBaby: 1}
+该命令召唤出一只小僵尸。上面的这个实例中，有三个字段：第一个字段的键为CustomName，值为'{"text":"快乐的小僵尸"}'；第二个字段的键为CustomNameVisible，值为1。读者不难看出上面这个实例的第三个字段的键和值。
+如果读者会英文，那么就不难看出，召唤出的这个僵尸的自定义名称（custom name）为“快乐的小僵尸”，并且自定义名称可见（custom name visible），而且是个小僵尸（is baby）。
+键通常只包含英文字母或下划线，而值可以有多种类型。
+值的常见类型[]
+下面列举了可用的值的类型及表示方法：
+数字：一般，在数字后面加一个英文字母以表示其值与类型，比如1b就表示布尔值的1。数字后面的字母表示其存储类型，而且可以省略。系统可以自动将其转化为对应的形式。也就是说，我们完全可以用我们日常生活中习惯的直接表示数字（整数或小数）的方法表示数字，如32、18.32。以下各种具体的数字存储类型，供有经验的人参考。
+字节型（byte）：1个字节，值在[-128,127]（这是数学中区间集合的表示方法，便于读者理解）之间的整数，用“数字 + b”表示。一般用于表示其某项功能是否开启，常作为布尔值使用，因此其值通常为0b或1b，如上述僵尸的标签的CustomNameVisible（名称是否可见），若其值为1b则可以看见其名字，若为0b则表示只有指向它时才能看见它的名字。此外，1b和0b还分别可以用true和false表示。
+短整型（short）：2个字节，值在[-32768,32767]之间的整数，用“数值 + s”表示。如旧版本的Health（表示生命值），32767s是其最大值。附魔的级别也是短整型，因此，在旧版本中，能通过命令实现的最大的附魔级别是32767级。
+整型（integer，简称int）：4字节，值在[-2147483648,2147483647]之间的整数，直接用一个数值表示。
+长整型（long）：8字节，值在[-9223372036854775808,9223372036854775807]之间的整数，在NBT中极为罕见。它可以用来表示极大的数字。
+单精度浮点型（float）：32位单精度浮点数，用“数值 + f”表示。如实体的Health（生命值），就是浮点型。虽然我们在游戏内看到的实体生命值通常是整数，半个心代表1，事实上，生命值在存储时，是可以有小数的。坐标、实体朝向等，也是浮点型。
+双精度浮点型（double）：64位双精度浮点数，用“数值 + d”表示。。
+字符串（string）：和大多数语言的字符串一样，表示文本。用英文双引号""或单引号''括起来的字符表示，注意必须使用半角双引号或半角单引号，如"这是一个字符串"和'这是一个字符串'都是有效的。你可以对字符串内容进行转义）。转义可以用来表示特殊字符，以及容易被理解为字符串边界的字符，后文会详细提及。此外，如果字符串没有标点符号（可以含有下划线_），引号可以省去，如标签id:"netherite_sword"可以写成id:netherite_sword，但是id:"minecraft:netherite_sword"不能写成id:minecraft:netherite_sword，因为冒号:是标点符号。
+列表（list）：参见#列表。
+复合标签（compound）：参见#复合标签。
+复合标签[]
+NBT复合标签（compound）的基本语法是使用花括号括起来，里面含有零个或更多个字段，每一个字段是“键:值”的格式。多个字段用逗号隔开。其中，键通常是字符串（其引号通常可以省略），值可以有各种类型，可以是另一个复合标签。
+NBT的复合标签整个可以看作值。比如，下面例子中的绿色文字就是整个复合标签，这个复合标签作为“display”的值。
+/give @s minecraft:stick{display:{Name:"\"谎言之杖\""}}（仅限1.13后的版本） /give @s minecraft:stick{display:{Name:'"谎言之杖"'}}（仅限1.14后的版本）
+列表[]
+列表（list），或者称为序列（sequence）、数组（array），可以包含零个、一个或多个值，它的每一个值对应的键都不表示，如：
+/summon minecraft:spider ~ ~ ~ {Passengers:[{id:"minecraft:skeleton"}]}
+该命令用于召唤蜘蛛骑士，即骷髅骑在蜘蛛身上。这个例子中的绿色文字就是一个列表，它的唯一一个值就是一个组合。
+/summon minecraft:zombie ~ ~ ~ {ArmorItems:[{id:"minecraft:diamond_boots",Count:1b},{id:"minecraft:diamond_leggings",Count:1b},{id:"minecraft:diamond_chestplate",Count:1b},{id:"minecraft:diamond_helmet",Count:1b}]}
+该命令用于召唤一个穿着全套钻石盔甲的僵尸。绿色文字表示的列表含有4个值，每一个值都是一个组合。
+列表的每项都有它的位置（或者成为键），注意这个位置是以0开始计数（就像Python、JavaScript那样），而非像Lua那样以1开始计数。例如：
+/data get entity @s Inventory[1]
+表示获取物品栏的第二个物品的数据，而非第一个。获取物品栏的第一个物品数据，应当使用：
+/data get entity @s Inventory[0]
+转义[]
+在NBT中，字符串可以转义，但是只支持引号和反斜杠的转义。比如：
+/give @s minecraft:paper{display:{Name:"{\"text\":\"一张空纸\",\"color\":\"red\"}"}}
+上面这个例子中，红色的文字表示了一整个字符串，其中绿色的文字表示转义的引号。字符串的内容将会被解释成如下内容：
+{"text":"一张空纸","color":"red"}
+（这是一个原始JSON文本。在NBT中，JSON文本被当做一个字符串使用。）
+在NBT的字符串中，要表示一个双引号应用\"表示，如果要表示一个反斜杠则应该使用\\。所以，如果在字符串中要表示\"，则应该使用\\\"。
+与JSON、Python、Lua等大多数程序语言不同，NBT只允许转义引号和反斜杠，因此不支持\n、\b、\u00a7等转义方式。\后面只有是\或"时才会被转义（此时，被转义的\和"不能再转义其他的字符，也不能够作为字符串的分界线），其他的情况统统不转义。
+NBT路径的表示方法[]
+/data (get|modify|remove) (block|entity|storage) ... <路径>中“路径”就是用于一系列键来定位到这个标签的。
+比如，闪电苦力怕拥有{powered:1b}的数据，powered路径，就是索引到标签名称为powered的标签。例如，/data get entity @e[type=creeper,limit=1] powered即可查询这只苦力怕是否为闪电苦力怕。
+表示多层复合标签中的键时，使用.（点）隔开。比如，{a:{b:{c:"某某文字"}}}，索引a.b.c就可以得到“"某某文字"”。
+表示列表中的特定位置的元素时，使用[n]（n为自然数，表示该列表中的第n+1个值）。
+例如，/data get entity @e[type=zombie,limit=1] ArmorItems[0].id表示，获取僵尸的脚上穿的物品的id（可能不存在）。这是因为，僵尸拥有名为ArmorItems的标签，其值为列表，列表的第一个元素（表示脚上的物品）是一个复合标签，这个复合标签的id字段表示该物品的id。在本Wiki，我们用树状图表示它的标签结构，如（部分内容已省略）：
+：根标签。
+ArmorItems：实体的盔甲物品。
+：脚上的物品。
+id：物品的命名空间ID。
+Count：物品的数量。
+tag：物品拥有的NBT标签。
+Enchantments：物品的附魔。
+：一个附魔。
+id：附魔的命名空间ID。
+lvl：附魔的等级。
+：腿上的物品，用法同上。
+：身上的物品，用法同上。
+：头上的物品，用法同上。
+从上面的列表不难看出，如果要获取僵尸的头上的物品有哪些附魔，可以用/data get entity @e[type=zombie,limit=1] ArmorItems[3].tag.Enchantments表示。
+又比如，/data get entity @s Inventory[3]表示获取自己的物品栏的第4个物品的信息。
+JSON的语法[]
+JSON的语法与NBT比较相似，但有以下区别：
+JSON的数字不分为整型等类型，因此不支持1b、2s这样的表达，直接使用1、2即可。
+在JSON中，标签、标签名称、标签值常称为域、键、值（就像Python的字典和Lua的表一样）。在JSON中，表示键也必须用引号括起来，就像表示字符串一样。
+JSON有布尔值true与false。
+JSON的字符串只允许双引号，单引号字符串不接受，支持\n、\u00a7等转义，未知的转义（如\a）仍将报错。JSON的字符串无论是键还是值在任何时候下都不可以省略双引号（NBT可以）。
+JSON的语法很严格，比如，对象或列表的最后一项之后不能有逗号。
+习惯上，JSON的表达应该经常换行，并且适当缩进（通常将2个或4个空格作为一个缩进），例如以下是一个数据包的pack.mcmeta：
+{ "pack": { "pack_format": 1, "description": "一个简单的数据包" } }
+在/tellraw、/title等命令中的JSON不支持换行（一般情况下，复制一段带有缩进符号和换行符的文字，然后在游戏内按Ctrl + V粘贴，换行符和缩进符号会被自动过滤），但是其JSON文本支持用\n转义换行。
+编造比较复杂的JSON文本时，可以进入bejson.cn等具有解析、纠错、转义、反转义、标准格式（更加美观）、压缩（去除多余空格、换行、缩进）等功能的网站，或使用支持类似功能的软件。
+JSON的用途[]
+JSON在数据包、资源包和JSON文本中有极大作用。参见教程/制作资源包、教程/制作数据包和教程/JSON文本。
+JSON用于基岩版命令[]
+在携带版1.1.0后（包括）拥有了原版的数据标签。适用于/give和/replaceitem，并且只有2个：can_place_on（该物品可放置在哪些方块旁）和can_destroy（该物品可以破坏哪些方块）。它们也只有在无法破坏和放置方块的冒险模式生效，其语法如下：
+{"minecraft:can_place_on":{"blocks":["方块1","方块2"…]}}
+{"minecraft:can_destroy":{"blocks":["方块1","方块2"…]}}
+注意方块用英文（如"air"）而并非数字id（如0）。
+例如：/give @s minecraft:diamond_pickaxe 1 0 {"minecraft:can_destroy":{"blocks":["stone"]}}可以获得一个允许冒险模式玩家仅能破坏石头的钻石镐。冒险模式的玩家如果没有拿着这样的镐就无法破坏任何方块，拿着这把镐也只能破坏石头，不能破坏其他方块。该命令相当于Java版的/give @s minecraft:diamond_pickaxe{CanDestroy:["minecraft:stone"]}。
+又一个实例：/give @s minecraft:tnt 1 0 {"minecraft:can_place_on":{"blocks":["sand","tnt"]},"minecraft:can_place_on":{"blocks":["redstone_block"]}}
+查
+论
+编
+教程（作
+下划线
+标记的教程为中文独有教程）
+新手教程
+菜单界面
+游戏术语
+下载、安装与购买
+新手生存
+第一天（新手指南）
+首个十分钟
+第二天
+第三天
+提示与技巧
+基岩版生存指南
+饥饿管理
+不该做的事
+生存注意事项
+庇护所
+庇护所
+沙漠
+最佳居住生物群系
+最佳建筑材料
+建筑与结构
+房屋类型
+导航
+综合
+无聊的时候做什么
+村庄生存
+跑酷
+空置域
+节省时间的小窍门
+在水下利用TNT破坏方块
+成就指南
+进度指南
+拓殖
+战斗
+完成冒险
+创建一个村庄
+双持
+沙漠生存
+雷暴生存
+下界生存
+从零开始下界生存
+末地生存
+探索洞穴
+家具
+在和平难度中收集资源
+利用碰撞箱
+马
+测量单位
+使用地图
+测量距离和角度
+采矿技术
+钻石
+化石
+远古残骸
+下界快速旅行
+下界传送门
+支柱跳跃
+PvP
+基地
+破坏基岩
+到达虚空
+村庄机制
+Minecraft和教育
+不可破坏的末影水晶
+使用更少的末影水晶重生末影龙
+透视镜
+挂机池
+汇报漏洞
+建筑
+给工程添加美感
+空气闸
+建筑术语
+建造游轮
+建造大都市
+建造过山车
+建造安全的家园
+建造水建筑
+建造几何体
+防御
+电梯
+带釉陶瓦的图案
+建造更好的地板
+停猪场
+像素艺术
+牧场
+屋顶类型
+弧形屋顶
+屋顶建造指南
+装饰屋顶
+暗门
+建造居住地
+水下之家
+墙壁和桥墩
+水闸
+调色板
+存储方案
+整理物品
+潜影盒储存
+矿车储存
+物品运输
+挑战
+获得潮涌核心
+冒险模式生存
+挑战自定义地图
+制作自定义地图
+治愈僵尸村民
+征服神殿和神庙
+触发及战胜袭击
+征服掠夺者前哨站
+征服堡垒遗迹
+征服林地府邸
+征服海底神殿
+打败末影龙
+征服末地城
+击败凋灵
+极限模式
+超极限模式
+如何在一个地区中长期生存下去
+光速船
+[仅基岩版]
+无材料消耗转换药水类型
+[仅基岩版]
+在无限沙漠中生存
+在超平坦模式中生存
+岛屿生存
+空岛生存
+速通
+放牧心得
+愚人节版本生存
+22w13oneBlockAtATime
+农场
+方块和物品
+骨粉
+仙人掌
+圆石
+可可豆
+农作物（甜菜、胡萝卜、马铃薯和小麦）
+紫颂果
+鸡蛋
+蜂蜜
+鱼
+花朵
+冰
+海带
+肉
+蘑菇
+唱片
+下界疣
+黑曜石
+西瓜、南瓜
+鳞甲
+羊毛
+海泡菜
+雪
+甘蔗
+树木
+藤蔓
+经验
+方块和物品复制
+刷铁轨机
+[仅Java版]
+TNT复制
+[仅Java版]
+生物
+刷怪塔
+怪物磨床
+刷怪笼陷阱
+动物（猪、牛、羊）
+烈焰人
+洞穴蜘蛛
+闪电苦力怕
+溺尸/僵尸
+末影人
+守卫者
+铁傀儡
+岩浆怪
+以物易物
+袭击
+无限触发袭击
+史莱姆
+鱿鱼
+海龟
+村民
+女巫
+流浪商人
+凋灵骷髅
+僵尸猪灵
+附魔与烧炼
+附魔台机制
+铁砧机制
+自动化烧炼
+燃料选择
+破坏方块
+爆炸室
+凋灵笼
+红石
+基础红石
+基本逻辑门
+高频电路
+计时器
+通用物品分类器
+抽奖箱
+飞行器
+漏斗
+机械
+侦测器稳定器
+密码锁
+随机发生器
+红石机械
+红石音乐
+红石技巧
+鲁布·戈德堡机械
+村民交易大厅
+探测器
+方块更新感应器
+比较器更新感应器
+阳光探测器
+昼夜探测器
+矿车
+火车站
+矿车
+储存
+存储系统
+陷阱
+雪傀儡防御炮
+TNT大炮
+活板门利用
+陷阱设计
+陷阱
+活塞
+活塞使用
+活塞电路
+半连接性
+零刻活塞
+无延迟中继器
+无头活塞
+高级红石
+高级红石电路
+算术逻辑
+计算器
+时钟
+摩斯密码
+打印机
+红石计算机
+红石电报机
+服务器
+使用服务器
+在服务器上游玩
+服务器监狱
+防止恶意破坏
+服务器商店
+起床战争
+空岛战争
+架设服务器
+架设服务器
+服务器架设脚本
+服务器启动脚本
+FreeBSD启动脚本
+OpenBSD启动脚本
+Ubuntu启动脚本
+架设一个Hamachi服务器
+架设一个Spigot服务器
+虚拟硬盘服务器
+架设基岩版服务器
+技术性
+结构方块
+命令方块
+命令统计值
+使用命令操控实体
+提高帧率
+Minecraft帮助FAQ（IRC频道）
+NBT与JSON
+Minecraft URL Scheme
+[仅基岩版]
+使用ngrok搭建服务器
+更新Java
+运行数据生成器
+地图
+自定义地图
+下载地图
+生成下落的方块
+[仅Java版]
+使用MCEdit在1.13中刷新旧版海洋
+[仅Java版]
+强制打开存档
+[仅Java版]
+资源包
+制作资源包
+加载资源包
+声音目录
+数据包
+制作数据包
+实例：
+蜜蜂助手
+消除视线
+安装数据包
+附加包
+基岩版开发指南
+制作资源附加包
+高级
+基岩版实体文档
+修改实体模型
+制作行为包
+创建自定义实体
+制作游戏视频
+视频
+游戏直播
+游戏安装
+快照版本安装
+如何获取崩溃报告
+在U盘中使用旧版启动器运行及保存Minecraft
+恢复损坏的地图数据
+在Google Drive上运行Minecraft
+将游戏数据保存到Dropbox云端（仅限地图数据）
+将游戏数据保存到Dropbox云端
+仅Java版
+修复Apache Log4j2漏洞
+自定义命令触发
+原始JSON文本
+NBT命令标签
+编写启动器
+过时教程
+建造微型庇护所
+自定义纹理包
+基于门的铁傀儡陷阱
+到达边境之地
+获取崩溃报告（旧版）
+人工湖
+在超平坦模式中管理史莱姆
+矿车加速器
+中继器重启系统
+无数据包生存
+升级LWJGL
+更新Minecraft
+村庄链
+水梯
+水道
+零刻作物催熟技术
+自动简易药水酿造机
+教程
+高难度通关配装总结
+成就指南
+分类
+分类
+教程
+中文独有教程
+添加分类
+取消 保存
+社区内容除另有注明外，均在CC BY-NC-SA 3.0许可协议下提供。
+Advertisement
+Fan Feed
+More Minecraft Wiki
+1 附魔
+2 交易
+3 药水酿造
+Explore Wikis
+薩爾達傳說Wiki
+Minecraft Wiki
+缺氧 Wiki
+探索更多
+Fandom
+D&D Beyond
+Cortex RPG
+Muthead
+Futhead
+Fanatical
+关注我们
+概览
+什么是Fandom？
+关于
+公司招聘
+新闻
+联系我们
+使用条款
+隐私政策
+全域网站地图
+本地网站地图
+社区
+社区中心
+支持
+帮助
+不允许售卖我的信息
+广告投放
+媒体服务
+Fandomatic
+Fandom App
+和你最喜爱的粉丝社区保持同步，不要错过精彩内容。
+Minecraft Wiki是一个Fandom上的游戏社区。
+查看移动网站
+window.RLQ = window.RLQ || []; window.RLQ.push(() => { mw.config.set('wgPageActions', {"1":{"class":" collapsible","text":"\u7f16\u8f91\u6e90\u4ee3\u7801","href":"\/zh\/wiki\/%E6%95%99%E7%A8%8B\/NBT%E4%B8%8EJSON?action=edit","primary":true,"id":"ca-edit","accesskey":"e","data-tracking":"ca-edit-dropdown"},"3":{"class":false,"text":"\u5386\u53f2","href":"\/zh\/wiki\/%E6%95%99%E7%A8%8B\/NBT%E4%B8%8EJSON?action=history","id":"ca-history","accesskey":"h","data-tracking":"ca-history-dropdown"},"11":{"class":"","text":"\u8ba8\u8bba (4)","href":"\/zh\/wiki\/Talk:%E6%95%99%E7%A8%8B\/NBT%E4%B8%8EJSON","exists":true,"primary":true,"context":"talk","rel":"discussion","id":"ca-talk","accesskey":"t","data-tracking":"ca-talk-dropdown"}}); }) (window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.557","walltime":"0.615","ppvisitednodes":{"value":3914,"limit":1000000},"ppgeneratednodes":{"value":0,"limit":1000000},"postexpandincludesize":{"value":149934,"limit":2097152},"templateargumentsize":{"value":2528,"limit":2097152},"expansiondepth":{"value":12,"limit":40},"expensivefunctioncount":{"value":0,"limit":100},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":652,"limit":5000000},"timingprofile":["100.00% 447.488 1 -total"," 72.47% 324.277 1 Template:Tutorials"," 20.90% 93.503 61 Template:BlockLink"," 12.36% 55.320 35 Template:EntityLink"," 11.56% 51.709 32 Template:ItemLink"," 9.61% 43.019 27 Template:EnvLink"," 9.48% 42.400 13 Template:Nbt"," 8.45% 37.823 7 Template:Cmd"," 8.43% 37.740 13 Template:Nbt/sprite"," 4.64% 20.756 17 Template:Cd"]},"scribunto":{"limitreport-timeusage":{"value":"0.293","limit":"7.000"},"limitreport-memusage":{"value":11870768,"limit":52428800}},"loops":{"limitreport-count-unlimited":[0]},"cachereport":{"timestamp":"20220512122539","ttl":1209600,"transientcontent":false}}});}); (window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgBackendResponseTime":115});});
+Follow on IG TikTok Join Fan Lab
+.st8{opacity:.5}

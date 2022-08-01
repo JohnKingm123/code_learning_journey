@@ -1,0 +1,217 @@
+Python3 函式 - Python3教学
+入门教学 -- 学的不仅是技术，更是梦想！
+首页
+HTML
+CSS
+JavaScript
+jQuery
+Python3
+Python2
+Java
+C
+C++
+Go
+SQL
+首页
+HTML
+Search
+Python3教学
+Python3 教程 Python3 简介 Python3 环境搭建 Python3 基础语法 Python3 基本资料型别 Python3 直译器 Python3 注释 Python3 运算子 Python3 数字(Number) Python3 字串 Python3 列表 Python3 元组 Python3 字典 Python3 集合 Python3 程式设计第一步 Python3 条件控制 Python3 循环语句 Python3 迭代器与生成器 Python3 函式 Python3 资料结构 Python3 模组 Python3 输入和输出 Python3 File 方法 Python3 OS 档案/目录方法 Python3 错误和异常 Python3 面向物件 Python3 名称空间和作用域 Python3 标准库概览 Python3 例项 Python3 正则表示式 Python3 CGI程式设计 Python MySQL – mysql-connector 驱动 Python3 MySQL 数据库连线 – PyMySQL 驱动 Python3 网络程式设计 Python3 SMTP传送邮件 Python3 多执行绪 Python3 XML 解析 Python3 JSON 资料解析 Python3 日期和时间 Python3 内建函式 Python MongoDB Python urllib Python uWSGI 安装配置
+ads
+HTML 基础
+Python3 函式
+Python3 函式
+函式是组织好的，可重复使用的，用来实现单一，或相关联功能的程式码段。
+函式能提高应用的模组性，和程式码的重复利用率。你已经知道Python提供了许多内建函式，比如print()。但你也可以自己建立函式，这被叫做使用者自定义函式。
+定义一个函式
+你可以定义一个由自己想要功能的函式，以下是简单的规则：
+函式程式码块以 def 关键词开头，后接函式识别符号名称和圆括号 ()。
+任何传入引数和自变数必须放在圆括号中间，圆括号之间可以用于定义引数。
+函式的第一行语句可以选择性地使用文件字串—用于存放函式说明。
+函式内容以冒号 : 起始，并且缩排。
+return [表示式] 结束函式，选择性地返回一个值给呼叫方，不带表示式的 return 相当于返回 None。
+语法
+Python 定义函式使用 def 关键字，一般格式如下：
+def 函式名（引数列表）: 函式体
+预设情况下，引数值和引数名称是按函式宣告中定义的顺序匹配起来的。
+例项
+让我们使用函式来输出"Hello World！"：
+#!/usr/bin/python3
+
+def hello() :
+print("Hello World!")
+
+hello()
+
+更复杂点的应用，函式中带上引数变数:
+例项(Python 3.0+)
+比较两个数，并返回较大的数:
+#!/usr/bin/python3 def max(a, b): if a > b: return a else: return b a = 4 b = 5 print(max(a, b))
+以上例项输出结果：
+5
+例项(Python 3.0+)
+计算面积函式:
+#!/usr/bin/python3 # 计算面积函式 def area(width, height): return width * height def print_welcome(name): print("Welcome", name) print_welcome("itread01") w = 4 h = 5 print("width =", w, " height =", h, " area =", area(w, h))
+以上例项输出结果：
+Welcome itread01 width = 4 height = 5 area = 20
+函式呼叫
+定义一个函式：给了函式一个名称，指定了函式里包含的引数，和程式码块结构。
+这个函式的基本结构完成以后，你可以通过另一个函式呼叫执行，也可以直接从 Python 命令提示符执行。
+如下例项呼叫了 printme() 函式：
+例项(Python 3.0+)
+#!/usr/bin/python3 # 定义函式 def printme( str ): # 打印任何传入的字串 print (str) return # 呼叫函式 printme("我要呼叫使用者自定义函式!") printme("再次呼叫同一函式")
+以上例项输出结果：
+我要呼叫使用者自定义函式! 再次呼叫同一函式
+引数传递
+在 python 中，型别属于物件，变数是没有型别的：
+a=[1,2,3] a="itread01"
+以上程式码中，[1,2,3] 是 List 型别，"itread01" 是 String 型别，而变数 a 是没有型别，她仅仅是一个物件的引用（一个指标），可以是指向 List 型别物件，也可以是指向 String 型别物件。
+可更改(mutable)与不可更改(immutable)物件
+在 python 中，strings, tuples, 和 numbers 是不可更改的物件，而 list,dict 等则是可以修改的物件。
+不可变型别：变数赋值 a=5 后再赋值 a=10，这里实际是新生成一个 int 值物件 10，再让 a 指向它，而 5 被丢弃，不是改变 a 的值，相当于新生成了 a。
+可变型别：变数赋值 la=[1,2,3,4] 后再赋值 la[2]=5 则是将 list la 的第三个元素值更改，本身la没有动，只是其内部的一部分值被修改了。
+python 函式的引数传递：
+不可变型别：类似 C++ 的值传递，如整数、字串、元组。如 fun(a)，传递的只是 a 的值，没有影响 a 物件本身。如果在 fun(a) 内部修改 a 的值，则是新生成一个 a 的物件。
+可变型别：类似 C++ 的引用传递，如 列表，字典。如 fun(la)，则是将 la 真正的传过去，修改后 fun 外部的 la 也会受影响
+python 中一切都是物件，严格意义我们不能说值传递还是引用传递，我们应该说传不可变物件和传可变物件。
+python 传不可变物件例项
+通过 id() 函式来检视内存地址变化：
+例项(Python 3.0+)
+def change(a): print(id(a)) # 指向的是同一个物件 a=10 print(id(a)) # 一个新物件 a=1 print(id(a)) change(a)
+以上例项输出结果为：
+4379369136 4379369136 4379369424
+可以看见在呼叫函式前后，形参和实参指向的是同一个物件（物件 id 相同），在函式内部修改形参后，形参指向的是不同的 id。
+传可变物件例项
+可变物件在函式里修改了引数，那么在呼叫这个函式的函式里，原始的引数也被改变了。例如：
+例项(Python 3.0+)
+#!/usr/bin/python3 # 可写函式说明 def changeme( mylist ): "修改传入的列表" mylist.append([1,2,3,4]) print ("函式内取值: ", mylist) return # 呼叫changeme函式 mylist = [10,20,30] changeme( mylist ) print ("函式外取值: ", mylist)
+传入函式的和在末尾新增新内容的物件用的是同一个引用。故输出结果如下：
+函式内取值: [10, 20, 30, [1, 2, 3, 4]] 函式外取值: [10, 20, 30, [1, 2, 3, 4]]
+引数
+以下是呼叫函式时可使用的正式引数型别：
+必需引数
+关键字引数
+预设引数
+不定长引数
+必需引数
+必需引数须以正确的顺序传入函式。呼叫时的数量必须和宣告时的一样。
+呼叫 printme() 函式，你必须传入一个引数，不然会出现语法错误：
+例项(Python 3.0+)
+#!/usr/bin/python3 #可写函式说明 def printme( str ): "打印任何传入的字串" print (str) return # 呼叫 printme 函式，不加引数会报错 printme()
+以上例项输出结果：
+Traceback (most recent call last): File "test.py", line 10, in <module> printme() TypeError: printme() missing 1 required positional argument: 'str'
+关键字引数
+关键字引数和函式呼叫关系紧密，函式呼叫使用关键字引数来确定传入的引数值。
+使用关键字引数允许函式呼叫时引数的顺序与宣告时不一致，因为 Python 直译器能够用引数名匹配引数值。
+以下例项在函式 printme() 呼叫时使用引数名：
+例项(Python 3.0+)
+#!/usr/bin/python3 #可写函式说明 def printme( str ): "打印任何传入的字串" print (str) return #呼叫printme函式 printme( str = "入门教学")
+以上例项输出结果：
+入门教学
+以下例项中演示了函式引数的使用不需要使用指定顺序：
+例项(Python 3.0+)
+#!/usr/bin/python3 #可写函式说明 def printinfo( name, age ): "打印任何传入的字串" print ("名字: ", name) print ("年龄: ", age) return #呼叫printinfo函式 printinfo( age=50, name="itread01" )
+以上例项输出结果：
+名字: itread01 年龄: 50
+预设引数
+呼叫函式时，如果没有传递引数，则会使用预设引数。以下例项中如果没有传入 age 引数，则使用预设值：
+例项(Python 3.0+)
+#!/usr/bin/python3 #可写函式说明 def printinfo( name, age = 35 ): "打印任何传入的字串" print ("名字: ", name) print ("年龄: ", age) return #呼叫printinfo函式 printinfo( age=50, name="itread01" ) print ("------------------------") printinfo( name="itread01" )
+以上例项输出结果：
+名字: itread01 年龄: 50 ------------------------ 名字: itread01 年龄: 35
+不定长引数
+你可能需要一个函式能处理比当初宣告时更多的引数。这些引数叫做不定长引数，和上述 2 种引数不同，宣告时不会命名。基本语法如下：
+def functionname([formal_args,] *var_args_tuple ): "函式_文件字串" function_suite return [expression]
+加了星号 * 的引数会以元组(tuple)的形式汇入，存放所有未命名的变数引数。
+例项(Python 3.0+)
+#!/usr/bin/python3 # 可写函式说明 def printinfo( arg1, *vartuple ): "打印任何传入的引数" print ("输出: ") print (arg1) print (vartuple) # 呼叫printinfo 函式 printinfo( 70, 60, 50 )
+以上例项输出结果：
+输出: 70 (60, 50)
+如果在函式呼叫时没有指定引数，它就是一个空元组。我们也可以不向函式传递未命名的变数。如下例项：
+例项(Python 3.0+)
+#!/usr/bin/python3 # 可写函式说明 def printinfo( arg1, *vartuple ): "打印任何传入的引数" print ("输出: ") print (arg1) for var in vartuple: print (var) return # 呼叫printinfo 函式 printinfo( 10 ) printinfo( 70, 60, 50 )
+以上例项输出结果：
+输出: 10 输出: 70 60 50
+还有一种就是引数带两个星号 **基本语法如下：
+def functionname([formal_args,] **var_args_dict ): "函式_文件字串" function_suite return [expression]
+加了两个星号 ** 的引数会以字典的形式汇入。
+例项(Python 3.0+)
+#!/usr/bin/python3 # 可写函式说明 def printinfo( arg1, **vardict ): "打印任何传入的引数" print ("输出: ") print (arg1) print (vardict) # 呼叫printinfo 函式 printinfo(1, a=2,b=3)
+以上例项输出结果：
+输出: 1 {'a': 2, 'b': 3}
+宣告函式时，引数中星号 * 可以单独出现，例如:
+def f(a,b,*,c): return a+b+c
+如果单独出现星号 * 后的引数必须用关键字传入。
+>>> def f(a,b,*,c): ... return a+b+c ... >>> f(1,2,3) # 报错 Traceback (most recent call last): File "<stdin>", line 1, in <module> TypeError: f() takes 2 positional arguments but 3 were given >>> f(1,2,c=3) # 正常 6 >>>
+匿名函式
+python 使用 lambda 来建立匿名函式。
+所谓匿名，意即不再使用 def 语句这样标准的形式定义一个函式。
+lambda 只是一个表示式，函式体比 def 简单很多。
+lambda的主体是一个表示式，而不是一个程式码块。仅仅能在lambda表示式中封装有限的逻辑进去。
+lambda 函式拥有自己的名称空间，且不能访问自己引数列表之外或全域性名称空间里的引数。
+虽然lambda函式看起来只能写一行，却不等同于C或C++的行内函数，后者的目的是呼叫小函式时不占用栈内存从而增加执行效率。
+语法
+lambda 函式的语法只包含一个语句，如下：
+lambda [arg1 [,arg2,.....argn]]:expression
+如下例项：
+例项(Python 3.0+)
+#!/usr/bin/python3 # 可写函式说明 sum = lambda arg1, arg2: arg1 + arg2 # 呼叫sum函式 print ("相加后的值为 : ", sum( 10, 20 )) print ("相加后的值为 : ", sum( 20, 20 ))
+以上例项输出结果：
+相加后的值为 : 30 相加后的值为 : 40
+return语句
+return [表示式] 语句用于退出函式，选择性地向呼叫方返回一个表示式。不带引数值的return语句返回None。之前的例子都没有示范如何返回数值，以下例项演示了 return 语句的用法：
+例项(Python 3.0+)
+#!/usr/bin/python3 # 可写函式说明 def sum( arg1, arg2 ): # 返回2个引数的和." total = arg1 + arg2 print ("函式内 : ", total) return total # 呼叫sum函式 total = sum( 10, 20 ) print ("函式外 : ", total)
+以上例项输出结果：
+函式内 : 30 函式外 : 30
+强制位置引数
+Python3.8 新增了一个函式形参语法 / 用来指明函式形参必须使用指定位置引数，不能使用关键字引数的形式。
+在以下的例子中，形参 a 和 b 必须使用指定位置引数，c 或 d 可以是位置形参或关键字形参，而 e 或 f 要求为关键字形参:
+def f(a, b, /, c, d, *, e, f): print(a, b, c, d, e, f)
+以下使用方法是正确的:
+f(10, 20, 30, d=40, e=50, f=60)
+以下使用方法会发生错误:
+f(10, b=20, c=30, d=40, e=50, f=60) # b 不能使用关键字引数的形式 f(10, 20, 30, 40, 50, f=60) # e 必须使用关键字引数的形式
+
+
+.sidebar-tree .double-li { width:300px; } .sidebar-tree .double-li li { width: 44%; line-height: 1.5em; border-bottom: 1px solid #ccc; float: left; display: inline; }
+分类导航
+HTML / CSS
+HTML 教程
+HTML5 教程
+CSS 教程
+CSS3 教程
+JavaScript
+JavaScript 教程
+jQuery 教程
+Node.js 教程
+服务端
+Python 教程
+Python3 教程
+Linux 教程
+Docker 教程
+Ruby 教程
+Java 教程
+JSP 教程
+C 教程
+C++ 教程
+Perl 教程
+Go 教程
+PHP 教程
+正则表达式
+数据库
+SQL 教程
+MySQL 教程
+PostgreSQL 教程
+SQLite 教程
+MongoDB 教程
+Redis 教程
+Memcached 教程
+行动端
+IOS 教程
+Swift 教程
+
+
+Advertisement
+Copyright © 2016-2021 IT阅读  Itread01.com All Rights Reserved.
+0.001291036605835

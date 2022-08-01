@@ -1,0 +1,192 @@
+Python3 字串 - Python3教学
+入门教学 -- 学的不仅是技术，更是梦想！
+首页
+HTML
+CSS
+JavaScript
+jQuery
+Python3
+Python2
+Java
+C
+C++
+Go
+SQL
+首页
+HTML
+Search
+Python3教学
+Python3 教程 Python3 简介 Python3 环境搭建 Python3 基础语法 Python3 基本资料型别 Python3 直译器 Python3 注释 Python3 运算子 Python3 数字(Number) Python3 字串 Python3 列表 Python3 元组 Python3 字典 Python3 集合 Python3 程式设计第一步 Python3 条件控制 Python3 循环语句 Python3 迭代器与生成器 Python3 函式 Python3 资料结构 Python3 模组 Python3 输入和输出 Python3 File 方法 Python3 OS 档案/目录方法 Python3 错误和异常 Python3 面向物件 Python3 名称空间和作用域 Python3 标准库概览 Python3 例项 Python3 正则表示式 Python3 CGI程式设计 Python MySQL – mysql-connector 驱动 Python3 MySQL 数据库连线 – PyMySQL 驱动 Python3 网络程式设计 Python3 SMTP传送邮件 Python3 多执行绪 Python3 XML 解析 Python3 JSON 资料解析 Python3 日期和时间 Python3 内建函式 Python MongoDB Python urllib Python uWSGI 安装配置
+ads
+HTML 基础
+Python3 字串
+Python3 字串
+字串是 Python 中最常用的资料型别。我们可以使用引号( ' 或 " )来建立字串。
+建立字串很简单，只要为变数分配一个值即可。例如：
+var1 = 'Hello World!' var2 = "itread01"
+Python 访问字串中的值
+Python 不支援单字元型别，单字元在 Python 中也是作为一个字串使用。
+Python 访问子字串，可以使用方括号 [] 来撷取字串，字串的撷取的语法格式如下：
+变数[头下标:尾下标]
+索引值以 0 为开始值，-1 为从末尾的开始位置。
+如下例项：
+例项(Python 3.0+)
+#!/usr/bin/python3 var1 = 'Hello World!' var2 = "itread01" print ("var1[0]: ", var1[0]) print ("var2[1:5]: ", var2[1:5])
+以上例项执行结果：
+var1[0]: H var2[1:5]: unoo
+Python 字串更新
+你可以撷取字串的一部分并与其他字段拼接，如下例项：
+例项(Python 3.0+)
+#!/usr/bin/python3 var1 = 'Hello World!' print ("已更新字串 : ", var1[:6] + 'itread01!')
+以上例项执行结果
+已更新字串 : Hello itread01!
+Python转义字元
+在需要在字元中使用特殊字元时，python 用反斜杠 \ 转义字元。如下表：
+转义字元
+描述
+例项
+\(在行尾时)
+续行符
+>>> print("line1 \ ... line2 \ ... line3") line1 line2 line3 >>>
+\\
+反斜杠符号
+>>> print("\\") \
+\'
+单引号
+>>> print('\'') '
+\"
+双引号
+>>> print("\"") "
+\a
+响铃
+>>> print("\a")
+执行后电脑有响声。
+\b
+退格(Backspace)
+>>> print("Hello \b World!") Hello World!
+\000
+空
+>>> print("\000") >>>
+\n
+换行
+>>> print("\n") >>>
+\v
+纵向制表符
+>>> print("Hello \v World!") Hello World! >>>
+\t
+横向制表符
+>>> print("Hello \t World!") Hello      World! >>>
+\r
+回车，将 \r 后面的内容移到字串开头，并逐一替换开头部分的字元，直至将 \r 后面的内容完全替换完成。
+>>> print("Hello\rWorld!") World! >>> print('google itread01 taobao\r123456') 123456 itread01 taobao
+\f
+换页
+>>> print("Hello \f World!") Hello World! >>>
+\yyy
+八进位制数，y 代表 0~7 的字元，例如：\012 代表换行。
+>>> print("\110\145\154\154\157\40\127\157\162\154\144\41") Hello World!
+\xyy
+十六进位制数，以 \x 开头，y 代表的字元，例如：\x0a 代表换行
+>>> print("\x48\x65\x6c\x6c\x6f\x20\x57\x6f\x72\x6c\x64\x21") Hello World!
+\other
+其它的字元以普通格式输出
+Python字串运算子
+下表例项变数 a 值为字串 "Hello"，b 变数值为 "Python"：
+操作符
+描述
+例项
++
+字串连线
+a + b 输出结果： HelloPython
+*
+重复输出字串
+a*2 输出结果：HelloHello
+[]
+通过索引获取字串中字元
+a[1] 输出结果 e
+[ : ]
+撷取字串中的一部分，遵循左闭右开原则，str[0:2] 是不包含第 3 个字元的。
+a[1:4] 输出结果 ell
+in
+成员运算子 - 如果字串中包含给定的字元返回 True
+'H' in a 输出结果 True
+not in
+成员运算子 - 如果字串中不包含给定的字元返回 True
+'M' not in a 输出结果 True
+r/R
+原始字串 - 原始字串：所有的字串都是直接按照字面的意思来使用，没有转义特殊或不能打印的字元。 原始字串除在字串的第一个引号前加上字母 r（可以大小写）以外，与普通字串有着几乎完全相同的语法。
+print( r'\n' ) print( R'\n' )
+%
+格式字串
+请看下一节内容。
+例项(Python 3.0+)
+#!/usr/bin/python3 a = "Hello" b = "Python" print("a + b 输出结果：", a + b) print("a * 2 输出结果：", a * 2) print("a[1] 输出结果：", a[1]) print("a[1:4] 输出结果：", a[1:4]) if( "H" in a) : print("H 在变数 a 中") else : print("H 不在变数 a 中") if( "M" not in a) : print("M 不在变数 a 中") else : print("M 在变数 a 中") print (r'\n') print (R'\n')
+以上例项输出结果为：
+a + b 输出结果： HelloPython a * 2 输出结果： HelloHello a[1] 输出结果： e a[1:4] 输出结果： ell H 在变数 a 中 M 不在变数 a 中 \n \n
+Python 字串格式化
+Python 支援格式化字串的输出 。尽管这样可能会用到非常复杂的表示式，但最基本的用法是将一个值插入到一个有字串格式符 %s 的字串中。
+在 Python 中，字串格式化使用与 C 中 sprintf 函式一样的语法。
+例项(Python 3.0+)
+#!/usr/bin/python3 print ("我叫 %s 今年 %d 岁!" % ('小明', 10))
+以上例项输出结果：
+我叫 小明 今年 10 岁!
+python字串格式化符号:
+符   号
+描述
+%c
+格式化字元及其ASCII码
+%s
+格式化字串
+%d
+格式化整数
+%u
+格式化无符号整型
+%o
+格式化无符号八进位制数
+%x
+格式化无符号十六进位制数
+%X
+格式化无符号十六进位制数（大写）
+%f
+格式化浮点数字，可指定小数点后的精度
+%e
+用科学计数法格式化浮点数
+%E
+作用同%e，用科学计数法格式化浮点数
+%g
+%f和%e的简写
+%G
+%f 和 %E 的简写
+%p
+用十六进位制数格式化变数的地址
+格式化操作符辅助指令:
+符号
+功能
+*
+定义宽度或者小数点精度
+-
+用做左对齐
++
+在正数前面显示加号( + )
+<sp>
+在正数前面显示空格
+#
+在八进位制数前面显示零('0')，在十六进位制前面显示'0x'或者'0X'(取决于用的是'x'还是'X')
+0
+显示的数字前面填充'0'而不是预设的空格
+%
+'%%'输出一个单一的'%'
+(var)
+对映变数(字典引数)
+m.n.
+m 是显示的最小总宽度,n 是小数点后的位数(如果可用的话)
+Python2.6 开始，新增了一种格式化字串的函式 str.format()，它增强了字串格式化的功能。
+Python三引号
+python三引号允许一个字串跨多行，字串中可以包含换行符、制表符以及其他特殊字元。例项如下
+例项(Python 3.0+)
+#!/usr/bin/python3 para_str = """这是一个多行字串的例项 多行字串可以使用制表符 TAB ( \t )。 也可以使用换行符 [ \n ]。 """ print (para_str)
+以上例项执行结果为：
+这是一个多行字串的例项 多行字串可以使用制表符 TAB ( )。 也可以使用换行符 [ ]。
+三引号让程序员从引号和特殊字串的泥潭里面解脱出来，自始至终保持一小块字串的格式是所谓的WYSIWYG（所见即所得）格式的。
+一个典型的用例是，当你需要一块HTML或者SQL时，这时用字串组合，特殊字串转义将会非常的繁琐。
+errHTML = ''' <HTML><HEAD><TITLE> Friends CGI Demo</TITLE></HEAD> <BODY><H3>ERROR</H3> <B>%s</B><P> <FORM><INPUT TYPE=button VALUE=https://www.big2gb.com/cn2tw0.php?url=https://www.itread01.com/python3/Back ONCLICK="window.history.back()">
