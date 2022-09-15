@@ -1,2 +1,2 @@
 # 第一单元blog
-<img src="./pic/*.png"/>
+<img src="./pic/1.png"/>
