@@ -1,14 +1,2 @@
 # 第一单元blog
-![test](https://github.com/JohnKingm123/code_learning_journey/tree/main/SoftWare/MD/Chapter_1/pic/1.png)
-![](https://github.com/JohnKingm123/code_learning_journey/tree/main/SoftWare/MD/Chapter_1/pic/2.png)
-![](https://github.com/JohnKingm123/code_learning_journey/tree/main/SoftWare/MD/Chapter_1/pic/3.png)
-![](https://github.com/JohnKingm123/code_learning_journey/tree/main/SoftWare/MD/Chapter_1/pic/4.png)
-![](https://github.com/JohnKingm123/code_learning_journey/tree/main/SoftWare/MD/Chapter_1/pic/5.png)
-![](https://github.com/JohnKingm123/code_learning_journey/tree/main/SoftWare/MD/Chapter_1/pic/6.png)
-![](https://github.com/JohnKingm123/code_learning_journey/tree/main/SoftWare/MD/Chapter_1/pic/7.png)
-![](https://github.com/JohnKingm123/code_learning_journey/tree/main/SoftWare/MD/Chapter_1/pic/8.png)
-![](https://github.com/JohnKingm123/code_learning_journey/tree/main/SoftWare/MD/Chapter_1/pic/9.png)
-![](https://github.com/JohnKingm123/code_learning_journey/tree/main/SoftWare/MD/Chapter_1/pic/10.png)
-![](https://github.com/JohnKingm123/code_learning_journey/tree/main/SoftWare/MD/Chapter_1/pic/11.png)
-![](https://github.com/JohnKingm123/code_learning_journey/tree/main/SoftWare/MD/Chapter_1/pic/12.png)
-![](https://github.com/JohnKingm123/code_learning_journey/tree/main/SoftWare/MD/Chapter_1/pic/13.png)
+<img src="./pic/*.png"/>
