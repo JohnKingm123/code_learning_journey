@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Code_Storge\\GitHub_Local\\Network\\HTML\\2022_9_16\\proj\\HTML实践\\HTML实践\\HTML实践.csproj",
+      "projectUniqueName": "D:\\Code_Storge\\GitHub_Local\\Network\\HTML5\\2022_9_16\\test\\HTML实践\\HTML实践\\HTML实践.csproj",
       "projectName": "HTML实践",
-      "projectPath": "D:\\Code_Storge\\GitHub_Local\\Network\\HTML\\2022_9_16\\proj\\HTML实践\\HTML实践\\HTML实践.csproj",
+      "projectPath": "D:\\Code_Storge\\GitHub_Local\\Network\\HTML5\\2022_9_16\\test\\HTML实践\\HTML实践\\HTML实践.csproj",
       "packagesPath": "C:\\Users\\JK\\.nuget\\packages\\",
-      "outputPath": "D:\\Code_Storge\\GitHub_Local\\Network\\HTML\\2022_9_16\\proj\\HTML实践\\HTML实践\\obj\\",
+      "outputPath": "D:\\Code_Storge\\GitHub_Local\\Network\\HTML5\\2022_9_16\\test\\HTML实践\\HTML实践\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
