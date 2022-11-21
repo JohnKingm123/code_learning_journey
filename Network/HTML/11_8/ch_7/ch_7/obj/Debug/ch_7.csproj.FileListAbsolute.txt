@@ -1,0 +1,2 @@
+D:\Code_Storge\GitHub_Local\Network\HTML\11_8\ch_7\ch_7\obj\Debug\ch_7.csproj.AssemblyReference.cache
+D:\Code_Storge\GitHub_Local\Network\HTML\11_8\ch_7\ch_7\obj\Debug\ch_7.csproj.CoreCompileInputs.cache
