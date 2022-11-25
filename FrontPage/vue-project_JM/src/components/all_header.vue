@@ -25,9 +25,9 @@
                 e.id == 0 ? this.$router.push('/') : ( (e.id == 1) ? this.$router.push('/') : this.$router.push('/user_space') )
             },
             
-            //GoMedSelection(){
-            //    this.$router.push('/JM_medSelectedList')
-           // }
+            // GoMedSelection(i){
+            //     i.id == 0 ? this.$router.push('/JM_medSelect/JM_medSelect1') :this.$router.push('/JM_medSelect/JM_medSelect1') 
+            // }
         },
     }
 </script>
@@ -45,8 +45,8 @@
                         <ul class="item1_mod1" v-show="k">
                             <li v-for="i in e.second_list" :key="i.id2">
                                 
-                                
-                                <a href="/user_space/user_relationinfo">{{ i.con }}</a>
+                                <!-- <router-link to=""  @click.native="GoMedSelection(i)" >{{i.con }}</router-link> -->
+                                <a :href="'./JM_medSelect'+(i.id2+1)">{{ i.con }}</a>
                             </li>
                         </ul>
                     </li>

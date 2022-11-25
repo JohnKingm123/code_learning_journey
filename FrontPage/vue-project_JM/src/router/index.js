@@ -52,6 +52,8 @@ export default new Router({
                     name: "user_changepic_select",
                     component:() => import("@/components/user_changepic_select.vue"),
                 },
+                
+                
                 /*以下是金敏新增router变量*/
                 
                 {
@@ -59,17 +61,28 @@ export default new Router({
                     name: "user_relationinfo",
                     component:() => import("@/components/JM_user_relationinfo.vue"),
                 },
-               /* {
+
+            ]
+        },
+
+        {
+            path: '/JM_medSelect',
+            name: 'JM_medSelect',
+            component:() => import("@/views/JM_medSelect/JM_medSelect.vue"),
+            children: [
+                {
                     path: "JM_medSelect1",
                     name: "JM_medSelect1",
-                    component:() => import("@/components/JM_medSelect.vue"),
+                    component:() => import("@/components/JM_medSelect1.vue"),
                 },
                 {
                     path: "JM_medSelect2",
                     name: "JM_medSelect2",
-                    component:() => import("@/components/JM_medSelectedList.vue"),
-                },*/
+                    component:() => import("@/components/JM_medSelect2.vue"),
+                },
+                
             ]
+
         },
     ]
 })
